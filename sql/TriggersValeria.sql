@@ -1,0 +1,167 @@
+--
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertDistrict
+-- BEFORE INSERT
+-- ON BLUE.Disctrict
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'DISTRICT', :NEW.id);
+-- END beforeInsertDistrict;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdateDisctrict
+-- BEFORE UPDATE
+-- ON BLUE.Disctrict
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+--
+-- END beforeUpdateDisctrict;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertCity
+-- BEFORE INSERT
+-- ON BLUE.City
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'CITY', :NEW.id);
+-- END beforeInsertCity;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdateCity
+-- BEFORE UPDATE
+-- ON BLUE.City
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+--
+-- END beforeUpdateCity;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertProvince
+-- BEFORE INSERT
+-- ON BLUE.Province
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'PROVINCE', :NEW.id);
+-- END beforeInsertProvince;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdateProvince
+-- BEFORE UPDATE
+-- ON BLUE.Province
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+-- END beforeUpdateProvince;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertCountry
+-- BEFORE INSERT
+-- ON BLUE.Country
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'COUNTRY', :NEW.id);
+-- END beforeInsertCountry;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdateCountry
+-- BEFORE UPDATE
+-- ON BLUE.Country
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+--
+-- END beforeUpdateCountry;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertProduct
+-- BEFORE INSERT
+-- ON BLUE.Product
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'PRODUCT', :NEW.id);
+-- END beforeInsertProduct;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdateProduct
+-- BEFORE UPDATE
+-- ON BLUE.Product
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+-- END beforeUpdateProduct;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertProductXUser
+-- BEFORE INSERT
+-- ON BLUE.ProductXUser
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'PRODUCTXUSER', :NEW.id);
+-- END beforeInsertProductXUser;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdateProductXUser
+-- BEFORE UPDATE
+-- ON BLUE.ProductXUser
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+--
+-- END beforeUpdateProductXUser;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertPointsConvertion
+-- BEFORE INSERT
+-- ON BLUE.PointsConvertion
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'POINTSCONVERTION', :NEW.id);
+-- END beforeInsertPointsConvertion;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdatePointsConvertion
+-- BEFORE UPDATE
+-- ON BLUE.PointsConvertion
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+--
+-- END beforeUpdatePointsConvertion;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeInsertCurrency
+-- BEFORE INSERT
+-- ON BLUE.Currency
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.created_by := USER;
+--     :NEW.creation_date := SYSDATE;
+--
+--     BLUE.ChangeLogger.LogChange('ID', NULL, :NEW.id, 'INSERT', 'CURRENCY', :NEW.id);
+-- END beforeInsertCurrency;
+-- /
+-- CREATE OR REPLACE TRIGGER BLUE.beforeUpdateCurrency
+-- BEFORE UPDATE
+-- ON BLUE.Currency
+-- FOR EACH ROW
+-- BEGIN
+--     :NEW.updated_by := USER;
+--     :NEW.updated_date := SYSDATE;
+--
+-- END beforeUpdateCurrency;
+-- /

@@ -1,0 +1,144 @@
+-- --Triggers--
+-- ALTER SESSION SET CURRENT_SCHEMA = AD;
+--
+-- --Creation Triggers--
+-- ALTER SESSION SET CURRENT_SCHEMA = AD;
+-- CREATE OR REPLACE TRIGGER beforeAfBusiness
+-- BEFORE INSERT
+-- ON AffiliatedBusiness
+-- FOR EACH ROW
+-- BEGIN
+--      :new.createdBy := USER;
+--      :new.createdDateTime := SYSDATE;
+-- END beforeAfBusiness;
+--
+-- ALTER SESSION SET CURRENT_SCHEMA = AD;
+-- CREATE OR REPLACE TRIGGER beforeBusinessType
+-- BEFORE INSERT
+-- ON BusinessType
+-- FOR EACH ROW
+-- BEGIN
+--      :new.createdBy := USER;
+--      :new.createdDateTime := SYSDATE;
+-- END beforeBusinessType;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeCollectionCenter
+-- BEFORE INSERT
+-- ON CollectionCenter
+-- FOR EACH ROW
+-- BEGIN
+--      :new.createdBy := USER;
+--      :new.createdDateTime := SYSDATE;
+-- END beforeCollectionCenter;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeCenterType
+-- BEFORE INSERT
+-- ON CenterType
+-- FOR EACH ROW
+-- BEGIN
+--      :new.createdBy := USER;
+--      :new.createdDateTime := SYSDATE;
+-- END beforeCenterType;
+--
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeMaterialType
+-- BEFORE INSERT
+-- ON MaterialType
+-- FOR EACH ROW
+-- BEGIN
+--      :new.createdBy := USER;
+--      :new.createdDateTime := SYSDATE;
+-- END beforeMaterialType;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeTMXCenter
+-- BEFORE INSERT
+-- ON MaterialTypeXCollectionCenter
+-- FOR EACH ROW
+-- BEGIN
+--      :new.createdBy := USER;
+--      :new.createdDateTime := SYSDATE;
+-- END beforeTMXCenter;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeUserXCollectionCenter
+-- BEFORE INSERT
+-- ON UserXCollectionCenter
+-- FOR EACH ROW
+-- BEGIN
+--      :new.createdBy := USER;
+--      :new.createdDateTime := SYSDATE;
+-- END beforeUserXCollectionCenter;
+--
+-- --Update Triggers--
+-- CREATE OR REPLACE TRIGGER beforeUpdateAfBusiness
+-- BEFORE UPDATE
+-- ON AffiliatedBusiness
+-- FOR EACH ROW
+-- BEGIN
+--      :new.updatedBy := USER;
+--      :new.updatedDateTime := SYSDATE;
+-- END beforeUpdateAfBusiness;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeUpdateBusinessType
+-- BEFORE UPDATE
+-- ON BusinessType
+-- FOR EACH ROW
+-- BEGIN
+--      :new.updatedBy := USER;
+--      :new.updatedDateTime := SYSDATE;
+-- END beforeUpdateBusinessType;
+--
+-- ALTER SESSION SET CURRENT_SCHEMA = AD;
+-- CREATE OR REPLACE TRIGGER beforeUpdateCollectionCenter
+-- BEFORE UPDATE
+-- ON CollectionCenter
+-- FOR EACH ROW
+-- BEGIN
+--      :new.updatedBy := USER;
+--      :new.updatedDateTime := SYSDATE;
+-- END beforeUpdateCollectionCenter;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeUpdateCenterType
+-- BEFORE UPDATE
+-- ON CenterType
+-- FOR EACH ROW
+-- BEGIN
+--      :new.updatedBy := USER;
+--      :new.updatedDateTime := SYSDATE;
+-- END beforeUpdateCenterType;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeUpdateMaterialType
+-- BEFORE UPDATE
+-- ON MaterialType
+-- FOR EACH ROW
+-- BEGIN
+--      :new.updatedBy := USER;
+--      :new.updatedDateTime := SYSDATE;
+-- END beforeUpdateMaterialType;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeUpdateTMXCenter
+-- BEFORE UPDATE
+-- ON MaterialTypeXCollectionCenter
+-- FOR EACH ROW
+-- BEGIN
+--      :new.updatedBy := USER;
+--      :new.updatedDateTime := SYSDATE;
+-- END beforeUpdateTMXCenter;
+--
+--
+-- CREATE OR REPLACE TRIGGER beforeUpdateUXCollectionCenter
+-- BEFORE UPDATE
+-- ON UserXCollectionCenter
+-- FOR EACH ROW
+-- BEGIN
+--      :new.updatedBy := USER;
+--      :new.updatedDateTime := SYSDATE;
+-- END beforeUpdateUXCollectionCenter;
