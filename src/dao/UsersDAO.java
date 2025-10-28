@@ -28,7 +28,9 @@ public class UsersDAO {
             cs.setString(6, provinceId);
             cs.setString(7, districtId);
             cs.setString(8, cityId);
-
+            
+            String temp = cs.toString();
+            
             cs.execute();
 
             try (ResultSet rs = cs.getResultSet()) {

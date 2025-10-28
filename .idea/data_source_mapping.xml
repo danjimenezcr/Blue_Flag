@@ -2,5 +2,6 @@
 <project version="4">
   <component name="DataSourcePerFileMappings">
     <file url="file://$PROJECT_DIR$/sql/Prj#1_packages.sql" value="6f67fd84-c202-4619-aa6b-194d49b9e63c" />
+    <file url="file://$PROJECT_DIR$/sql/Prj1_catalog_inserts.sql" value="6f67fd84-c202-4619-aa6b-194d49b9e63c" />
   </component>
 </project>

@@ -11,9 +11,10 @@ public class AuthService {
     public AuthService() {}
     public User login(String username, String password){
         List<User> users = userDao.getUsers(null, username, null, null, null, null, null);
-        if(users.isEmpty()) return null;
-
-        if(users.get(0).getPassword().equals(password)) return users.get(0);
+  
+        if(users != null){
+            if(users.get(0).getPassword().equals(password)) return users.get(0);
+        }
         return null;
     }
 
