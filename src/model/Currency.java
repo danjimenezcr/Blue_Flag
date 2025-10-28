@@ -1,5 +1,6 @@
-Import java.util.Date;
+package model;
 
+import java.util.Date; // if needed
 public class Currency {
     private int id;
     private String code;

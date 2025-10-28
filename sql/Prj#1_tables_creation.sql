@@ -29,9 +29,9 @@ CREATE TABLE Users
     genderId        NUMBER(6),
     id_typeId       NUMBER(6)
         CONSTRAINT TB_USERS_ID_TYPE_ID_NN NOT NULL,
-    userTypeId     NUMBER(6)
+    userTypeName     NUMBER(6)
         CONSTRAINT TB_USERS_USER_TYPE_ID_NN NOT NULL,
-    districtId      NUMBER(6)
+    districtName      NUMBER(6)
         CONSTRAINT TB_USERS_DISTRICT_ID_NN NOT NULL,
     pointsBalance NUMBER(8) DEFAULT 0
         CONSTRAINT TB_USERS_POINTSBALANCE_MIN CHECK (pointsBalance >= 0)
@@ -137,7 +137,7 @@ CREATE TABLE AutorizedEntity
     manager    VARCHAR(25)
         CONSTRAINT AutorizedEntity_manager_nn NOT NULL,
     contact    VARCHAR(25),
-    districtId NUMBER(6)
+    districtName NUMBER(6)
         CONSTRAINT AutorizedEntity_DistrictId_nn NOT NULL
 );
 

@@ -1,5 +1,6 @@
-Import java.util.Date;
+package model;
 
+import java.util.Date; // if needed
 public class City {
 
     private int id;

@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/Blue_Flag/nbproject/private/
+/test/nbproject/private/
+/build/

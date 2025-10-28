@@ -1,11 +1,13 @@
-Import java.util.Date;
+package model;
+
+import java.util.Date; // if needed
 
 public class User {
 
     private int id;
     private String firstName;
-    private String secondName;
     private String lastName;
+    private String secondName;
     private String secondLastName;
     private Date birthDate;
     private String username;
@@ -17,24 +19,23 @@ public class User {
     private Date createdDate;
     private String updatedBy;
     private Date updatedDate;
-    private int genderId;
-    private int idTypeId;
-    private int userTypeId;
-    private int districtId;
+    private String genderName;
+    private String idTypeName;
+    private String userTypeName;
     private int pointsBalance;
+    private String districtName;
+    private String cityName;
+    private String provinceName;
+    private String countryName;
 
     public User() {
     }
 
-    public User(int id, String firstName, String secondName, String lastName, String secondLastName,
-                Date birthDate, String username, String password, String idNumber, String address,
-                String photoUrl, String createdBy, Date createdDate, String updatedBy,
-                Date updatedDate, int genderId, int idTypeId, int userTypeId,
-                int districtId, int pointsBalance) {
+    public User(int id, String firstName, String lastName, String secondName, String secondLastName, Date birthDate, String username, String password, String idNumber, String address, String photoUrl, String createdBy, Date createdDate, String updatedBy, Date updatedDate, String genderName, String idTypeName, String userTypeName, int pointsBalance) {
         this.id = id;
         this.firstName = firstName;
-        this.secondName = secondName;
         this.lastName = lastName;
+        this.secondName = secondName;
         this.secondLastName = secondLastName;
         this.birthDate = birthDate;
         this.username = username;
@@ -46,10 +47,9 @@ public class User {
         this.createdDate = createdDate;
         this.updatedBy = updatedBy;
         this.updatedDate = updatedDate;
-        this.genderId = genderId;
-        this.idTypeId = idTypeId;
-        this.userTypeId = userTypeId;
-        this.districtId = districtId;
+        this.genderName = genderName;
+        this.idTypeName = idTypeName;
+        this.userTypeName = userTypeName;
         this.pointsBalance = pointsBalance;
     }
 
@@ -173,36 +173,57 @@ public class User {
         this.updatedDate = updatedDate;
     }
 
-    public int getGenderId() {
-        return genderId;
+    public String getGenderName() {
+        return genderName;
     }
 
-    public void setGenderId(int genderId) {
-        this.genderId = genderId;
+    public void setGenderName(String genderId) {
+        this.genderName = genderId;
     }
 
-    public int getIdTypeId() {
-        return idTypeId;
+    public String getIdTypeName() {
+        return idTypeName;
     }
 
-    public void setIdTypeId(int idTypeId) {
-        this.idTypeId = idTypeId;
+    public void setIdTypeName(String idTypeName) {
+        this.idTypeName = idTypeName;
     }
 
-    public int getUserTypeId() {
-        return userTypeId;
+    public String getUserTypeName() {
+        return userTypeName;
     }
 
-    public void setUserTypeId(int userTypeId) {
-        this.userTypeId = userTypeId;
+    public void setUserTypeName(String userTypeName) {
+        this.userTypeName = userTypeName;
     }
 
-    public int getDistrictId() {
-        return districtId;
+    public String getDistrictName() {
+        return districtName;
     }
 
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId;
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+    public String getProvinceName() {
+        return provinceName;
+    }
+
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName;
+    }
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
     public int getPointsBalance() {

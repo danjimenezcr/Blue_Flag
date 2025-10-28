@@ -1,4 +1,6 @@
-Import java.util.Date;
+package model;
+
+import java.util.Date;
 
 public class AutorizedEntity {
 

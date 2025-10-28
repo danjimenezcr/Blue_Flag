@@ -1,4 +1,6 @@
-Import java.util.Date;
+package model;
+
+import java.util.Date; // if needed
 
 public class Labels {
 
@@ -39,5 +41,5 @@ public class Labels {
     }
 
     public String getCreatedBy() {
-        return createdBy;
-    }
+        return this.createdBy;
+    }}

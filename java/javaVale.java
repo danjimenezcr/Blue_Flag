@@ -690,27 +690,27 @@ Import java.util.Date;
         this.genderId = genderId;
     }
 
-    public int getIdTypeId() {
+    public int getIdTypeName() {
         return idTypeId;
     }
 
-    public void setIdTypeId(int idTypeId) {
+    public void setIdTypeName(int idTypeId) {
         this.idTypeId = idTypeId;
     }
 
-    public int getUserTypeId() {
+    public int getUserTypeName() {
         return userTypeId;
     }
 
-    public void setUserTypeId(int userTypeId) {
+    public void setUserTypeName(int userTypeId) {
         this.userTypeId = userTypeId;
     }
 
-    public int getDistrictId() {
+    public int getDistrictName() {
         return districtId;
     }
 
-    public void setDistrictId(int districtId) {
+    public void setDistrictName(int districtId) {
         this.districtId = districtId;
     }
 

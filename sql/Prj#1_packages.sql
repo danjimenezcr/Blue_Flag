@@ -23,7 +23,7 @@ CREATE OR REPLACE PACKAGE UserManager AS
     PROCEDURE deleteUser(pUserId number);
     PROCEDURE updatePassword(pUserId number, pNewPassword varchar2);
     procedure updateUser(pUserId number, pFirstName varchar2, pBirthDate date, pLastName varchar2, pGenderId number, pDistrictId number, pAddress varchar2);
-    function getUsers(pUserId number default null, pName varchar2, pIdNumber number, pProvinceId varchar2, pDistrictId varchar2, pCityId varchar2) return sys_refcursor;
+    function getUsers(pUserId number default null, pUsername varchar2, pName varchar2, pIdNumber number, pProvinceId varchar2, pDistrictId varchar2, pCityId varchar2) return sys_refcursor;
     function getUsersNoPasswordChanges(pName varchar2, pLastName varchar2, pStartDate date, pEndDate date) return sys_refcursor;
     function getUsersTotalPoints(pStartDate date, pEndDate date) return sys_refcursor;
     function getUsersRecyclingPoints(pCollectionCenterId number, pIdNumber number, pName varchar2) return sys_refcursor;
@@ -117,7 +117,7 @@ create or replace package body UserManager as
                     RAISE_APPLICATION_ERROR(-20002, 'Unexpected error ocurred.');
 
         end;
-    function getUsers(pUserId number default null, pName varchar2, pIdNumber number, pProvinceId varchar2,
+    function getUsers(pUserId number default null, pUsername varchar2, pName varchar2, pIdNumber number, pProvinceId varchar2,
                       pDistrictId varchar2, pCityId varchar2)
         return sys_refcursor
         is
@@ -125,7 +125,11 @@ create or replace package body UserManager as
         begin
             open vcUsers for
                 select
-                    u.FIRSTNAME || ' ' || u.SECONDNAME || ' ' || u.LASTNAME || ' ' || u.SECONDLASTNAME name,
+                    u.id,
+                    u.FIRSTNAME,
+                    u.SECONDNAME,
+                    u.LASTNAME,
+                    u.SECONDLASTNAME,
                     u.BIRTHDATE,
                     u.username,
                     u.IDNUMBER,
@@ -136,13 +140,14 @@ create or replace package body UserManager as
                     cc.name countryName,
                     u.PHOTOURL,
                     u.PASSWORD,
-                    g.id gender,
+                    g.name genderName,
                     it.NAME idTypeName,
                     ut.NAME userTypeName,
                     u.CREATEDBY,
                     u.CREATEDDATE,
                     u.UPDATEDBY,
-                    u.UPDATEDDATE
+                    u.UPDATEDDATE,
+                    pp.balance
                 from
                     users u
                     inner join DISTRICT d on d.id = u.DISTRICTID
@@ -152,6 +157,18 @@ create or replace package body UserManager as
                     inner join genders g on g.ID = u.GENDERID
                     inner join idType it on it.ID = u.ID_TYPEID
                     inner join USERTYPES ut on ut.id = u.USERTYPEID
+                    inner join (
+                        select
+                            cc.USERID,
+                            sum(cc.KILOGRAMS * p2.POINTSPERKG) - sum(Cost) balance
+                        from
+                            USERXCOLLECTIONCENTER cc
+                            left join PRODUCTXUSER pu on pu.USERID = cc.USERID
+                            left join POINTSCONVERTION P2 on cc.POINTSCONVERTIONKEY = P2.ID
+                            left join PRODUCT p on p.id = pu.PRODUCTID
+                        group by
+                            cc.USERID
+                    ) pp on pp.userId = u.ID
                 where
                     u.id = nvl(pUserId, u.id)
                     and (pName is null or (u.FIRSTNAME || u.SECONDNAME || u.LASTNAME || u.SECONDLASTNAME) LIKE '%' || nvl(pName, u.FIRSTNAME) ||'%')
@@ -159,6 +176,7 @@ create or replace package body UserManager as
                     and p.ID = nvl(pProvinceId, p.ID)
                     and c.ID = nvl(pCityId, p.ID)
                     and d.ID = nvl(pDistrictId, p.ID)
+                    and u.USERNAME = nvl(pUsername, u.USERNAME)
             ;
             RETURN (vcUsers);
             exception
@@ -1676,4 +1694,8 @@ CREATE OR REPLACE PACKAGE BODY CurrencyManager AS
     END getCurrencies;
 END CurrencyManager;
 
-SELECT OBJECT_NAME, COUNT(DISTINCT PROCEDURE_NAME) FROM DBA_PROCEDURES WHERE OWNER = 'BLUE' AND OBJECT_TYPE = 'PACKAGE' GROUP BY OBJECT_NAME
+
+DECLARE vUser SYS_REFCURSOR;
+BEGIN
+    vUser:= UserManager.getUsers(NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+end;

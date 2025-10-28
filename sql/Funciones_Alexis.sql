@@ -15,7 +15,7 @@ CREATE OR REPLACE PACKAGE BODY adminAutorizedEntity AS
   PROCEDURE insertAutorizedEntity(pName VARCHAR2, pOpenHour TIMESTAMP, pCloseHour TIMESTAMP, pManager VARCHAR2, pContact VARCHAR2, pDistrictId  NUMBER, pNewId OUT NUMBER) 
     AS
 BEGIN
-    INSERT INTO AutorizedEntity (id, name, openHour, closeHour, manager, contact, districtId)
+    INSERT INTO AutorizedEntity (id, name, openHour, closeHour, manager, contact, districtName)
     VALUES (s_AutorizedEntity.NEXTVAL, pName, pOpenHour, pCloseHour, pManager, pContact, pDistrictId)
     RETURNING id INTO pNewId;
   EXCEPTION
@@ -33,12 +33,13 @@ BEGIN
            closeHour = NVL(pCloseHour, closeHour),
            manager = NVL(pManager, manager),
            contact = NVL(pContact, contact),
-           districtId = NVL(pDistrictId, districtId)
+           districtName = NVL(pDistrictId, districtName)
      WHERE id = pId;
 
     IF SQL%ROWCOUNT = 0 THEN
       RAISE updateAutorizedEntity.eNoId;
     END IF;
+      COMMIT; 
   EXCEPTION
     WHEN updateAutorizedEntity.eNoId THEN
       RAISE_APPLICATION_ERROR(-20001, 'Authorized Entity not found.');
@@ -77,13 +78,14 @@ RETURN SYS_REFCURSOR AS
         ae.closeHour,
         ae.manager,
         ae.contact,
-        ae.districtId
+        ae.districtName
       FROM AutorizedEntity ae
      WHERE ae.id        = NVL(pId, ae.id)
        AND ae.name      LIKE '%' || NVL(pName, ae.name) || '%'
        AND ae.manager   LIKE '%' || NVL(pManager, ae.manager) || '%'
-       AND ae.districtId= NVL(pDistrictId, ae.districtId);
+       AND ae.districtName= NVL(pDistrictId, ae.districtName);
     RETURN (vcAuthorizedEntity);
+    Commit;
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
         RAISE_APPLICATION_ERROR(-20001, 'Authorized Entity No found.');
@@ -116,6 +118,7 @@ CREATE OR REPLACE PACKAGE BODY adminAffiliatedBusiness AS
 
     INSERT INTO AffiliatedBusiness (AutorizedEntityId, BusinessTypeId)
     VALUES (pNewId, pBusinessTypeId);
+    COMMIT;
   EXCEPTION
     WHEN OTHERS THEN
       RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while inserting Affiliated Business.');
@@ -145,7 +148,7 @@ CREATE OR REPLACE PACKAGE BODY adminAffiliatedBusiness AS
       INSERT INTO AffiliatedBusiness (AutorizedEntityId, BusinessTypeId)
       VALUES (pId, pBusinessTypeId);
     END IF;
-
+    COMMIT;
   EXCEPTION
     WHEN OTHERS THEN
       RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while updating Affiliated Business.');
@@ -180,7 +183,7 @@ CREATE OR REPLACE PACKAGE BODY adminAffiliatedBusiness AS
         ae.closeHour,
         ae.manager,
         ae.contact,
-        ae.districtId,
+        ae.districtName,
         ab.BusinessTypeId
       FROM AutorizedEntity ae
       JOIN AffiliatedBusiness ab
@@ -188,7 +191,7 @@ CREATE OR REPLACE PACKAGE BODY adminAffiliatedBusiness AS
      WHERE ae.id = NVL(pId, ae.id)
        AND ae.name LIKE '%' || NVL(pName, ae.name) || '%'
        AND ab.BusinessTypeId = NVL(pBusinessTypeId, ab.BusinessTypeId)
-       AND ae.districtId = NVL(pDistrictId, ae.districtId);
+       AND ae.districtName = NVL(pDistrictId, ae.districtName);
     RETURN (vcAffiliatedBusiness);
   EXCEPTION
     WHEN NO_DATA_FOUND THEN
@@ -220,10 +223,10 @@ AS
 BEGIN
     INSERT INTO BusinessType (id, description)
     VALUES (s_BusinessType.NEXTVAL,description_I);
+    COMMIT;
 EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20001, 'Unexpected error occurred.');
-    COMMIT;
 END;
 
 FUNCTION getBusinessType(bId NUMBER DEFAULT NULL, bDescription VARCHAR DEFAULT NULL)
@@ -244,13 +247,12 @@ RETURN SYS_REFCURSOR
             WHERE 
                 id = NVL(bId, id)
                 AND description LIKE '%' || NVL(bDescription, description) || '%';
+    RETURN (vcBusinessType);
     EXCEPTION            
         when NO_DATA_FOUND then
             RAISE_APPLICATION_ERROR(-20001, 'type of Business No found.');
         WHEN OTHERS THEN
             RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
-        RETURN (vcBusinessType);
-        COMMIT;
 END getBusinessType;
 
 PROCEDURE removeBusinessType(id_I NUMBER)
@@ -314,11 +316,11 @@ AS
 BEGIN
     INSERT INTO CenterType (id, description)
     VALUES (s_CenterType.NEXTVAL, description_I);
-
+    COMMIT;
 EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20001, 'Unexpected error occurred.');
-    COMMIT;
+
 END;
 
 FUNCTION getCenterType(cId NUMBER DEFAULT NULL, cDescription VARCHAR DEFAULT NULL)
@@ -335,12 +337,12 @@ RETURN SYS_REFCURSOR
             WHERE 
                 id = NVL(cId, id)
                 AND description LIKE '%' || NVL(cDescription, description) || '%';
+    RETURN (vcCenterType);
     EXCEPTION           
         when NO_DATA_FOUND then
             RAISE_APPLICATION_ERROR(-20001, 'type of Center No found.');
         WHEN OTHERS THEN
             RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
-        RETURN (vcCenterType);
 END getCenterType;
 
 PROCEDURE removeCenterType(id_I NUMBER)
@@ -404,11 +406,11 @@ AS
 BEGIN
     INSERT INTO MaterialType (id, name)
     VALUES (s_MaterialType.NEXTVAL, name_I);
-
+    COMMIT;
 EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20001, 'Unexpected error occurred.');
-    COMMIT;
+
 END;
 
 FUNCTION getMaterialType(mId NUMBER DEFAULT NULL, mName VARCHAR DEFAULT NULL)
@@ -429,12 +431,12 @@ RETURN SYS_REFCURSOR
             WHERE 
                 id = NVL(mId, id)
                 AND name LIKE '%' || NVL(mName, name) || '%';
+    RETURN (vcMaterialType);
     EXCEPTION            
         when NO_DATA_FOUND then
             RAISE_APPLICATION_ERROR(-20001, 'type of material No found.');
         WHEN OTHERS THEN
             RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
-        RETURN (vcMaterialType);
 END getMaterialType;
 
 PROCEDURE removeMaterialType(id_I NUMBER)
@@ -510,6 +512,7 @@ CREATE OR REPLACE PACKAGE BODY adminCollectionCenter AS
     );
     INSERT INTO CollectionCenter (AutorizedEntityId, CenterTypeId)
     VALUES (pNewId, pCenterTypeId);
+    COMMIT;
   EXCEPTION
     WHEN OTHERS THEN
       RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while inserting Collection Center.');
@@ -537,6 +540,7 @@ CREATE OR REPLACE PACKAGE BODY adminCollectionCenter AS
       INSERT INTO CollectionCenter (AutorizedEntityId, CenterTypeId)
       VALUES (pId, pCenterTypeId);
     END IF;
+    COMMIT;
   EXCEPTION
     WHEN OTHERS THEN
       RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while updating Collection Center.');
@@ -567,7 +571,7 @@ CREATE OR REPLACE PACKAGE BODY adminCollectionCenter AS
         ae.closeHour,
         ae.manager,
         ae.contact,
-        ae.districtId,
+        ae.districtName,
         cc.CenterTypeId
       FROM AutorizedEntity ae
       JOIN CollectionCenter cc
@@ -575,7 +579,7 @@ CREATE OR REPLACE PACKAGE BODY adminCollectionCenter AS
      WHERE ae.id            = NVL(pId, ae.id)
        AND ae.name          LIKE '%' || NVL(pName, ae.name) || '%'
        AND cc.CenterTypeId  = NVL(pCenterTypeId, cc.CenterTypeId)
-       AND ae.districtId    = NVL(pDistrictId, ae.districtId);
+       AND ae.districtName    = NVL(pDistrictId, ae.districtName);
     RETURN (vcCollectionCenter);
   EXCEPTION
     when NO_DATA_FOUND then
@@ -606,7 +610,7 @@ AS
 BEGIN
     INSERT INTO TMXCenter (id, AutorizedEntityid, materialTypeid)
     VALUES (s_MTypeXCollectionCenter.NEXTVAL, AutorizedEntityid_I,  materialTypeid_I);
-
+  COMMIT;
 EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20001, 'Unexpected error occurred.');
@@ -638,8 +642,7 @@ BEGIN
         AND mt.id = NVL(txcMaterialTypeid, mt.id)
         AND cc.AutorizedEntityid = NVL(txcAutorizedEntityid,cc.AutorizedEntityid);
 
-    RETURN vcTMXCenter;
-
+    RETURN (vcTMXCenter);
 EXCEPTION
     WHEN NO_DATA_FOUND THEN
         RAISE_APPLICATION_ERROR(-20001, 'No Type material x Collection Center found.');
@@ -688,9 +691,8 @@ BEGIN
             EXTRACT(MONTH FROM uc.createdDateTime)
         ORDER BY year, month;
 
-    RETURN vcListaMateriales;
-
-EXCEPTION
+    RETURN (vcListaMateriales);
+    EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while listing materials by center.');
 END getListaMateriales;
@@ -737,7 +739,7 @@ AS
 BEGIN
     INSERT INTO UserXCollectionCenter (id, userId ,CollectionCenter,pointsConvertionKey, kilograms)
     VALUES (s_UserXCollectionCenter.NEXTVAL,userId_I, CollectionC_I, pointsConvertionKey_I, kilograms_I);
-
+  COMMIT;
 EXCEPTION
     WHEN OTHERS THEN
         RAISE_APPLICATION_ERROR(-20001, 'Unexpected error occurred.');
@@ -772,13 +774,12 @@ BEGIN
         AND ae.id = NVL(uxcCollection,ae.id)
         AND pc.id = NVL(uxcPointsConvertionKey, pc.id);
 
-    RETURN vcUserXCollectionCenter;
-
-EXCEPTION
-    WHEN NO_DATA_FOUND THEN
-        RAISE_APPLICATION_ERROR(-20001, 'No User x Collection Center found.');
-    WHEN OTHERS THEN
-        RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
+    RETURN (vcUserXCollectionCenter);
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+          RAISE_APPLICATION_ERROR(-20001, 'No User x Collection Center found.');
+      WHEN OTHERS THEN
+          RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
 
 END getUserXCollectionCenter;
 

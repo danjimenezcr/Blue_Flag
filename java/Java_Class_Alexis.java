@@ -73,11 +73,11 @@ Import java.util.Date;
         this.contact = contact;
     }
 
-    public int getDistrictId() {
+    public int getDistrictName() {
         return districtId;
     }
 
-    public void setDistrictId(int districtId) {
+    public void setDistrictName(int districtId) {
         this.districtId = districtId;
     }
 }*/
