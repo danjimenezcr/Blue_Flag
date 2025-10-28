@@ -2,6 +2,8 @@
   <library name="ojdbc17">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/src/main/resources/ojdbc17.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/resources/flatlaf-demo-3.6.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/resources/jcalendar-1.4.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

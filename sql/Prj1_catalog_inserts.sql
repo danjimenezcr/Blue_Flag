@@ -34,4 +34,22 @@ CALL DISTRICTMANAGER.INSERTDISTRICT('Pozos', 0);
 CALL USERMANAGER.INSERTUSER('Danny', '02/07/2002', 'danjimenezcr', null, 'Jimenez', 'Sevilla',
      'Jimenez02', null,0, 0, 0,0, 'Condomium Santa Ana Park B204','504440584');
 
-OPEN {CALL USERMANAGER.GETUSERS(null, 'danjimenezcr',)}
+
+-----------------------------------------------------------------------------------
+
+--Inserts Alexis--
+
+CALL adminAutorizedEntity.insertAutorizedEntity('Municipalidad de Cartago', TO_TIMESTAMP('08:00 AM', 'HH:MI AM'), TO_TIMESTAMP('04:00 PM', 'HH:MI AM'), 'Mario Redondo', '2550-4500', '3');
+
+CALL adminAutorizedEntity.insertAutorizedEntity('Recicladora Hernandez Cartin', TO_TIMESTAMP('08:00 AM', 'HH:MI AM'), TO_TIMESTAMP('05:00 PM', 'HH:MI AM'), 'Hernandez Cartin', '7015-3945', '3');
+
+CALL adminMaterialType.insertMaterialType('Plastic');
+CALL adminMaterialType.insertMaterialType('Metal');
+CALL adminMaterialType.insertMaterialType('Paper');
+CALL adminMaterialType.insertMaterialType('Electronics');
+CALL adminMaterialType.insertMaterialType('PaperBoard');
+CALL adminMaterialType.insertMaterialType('aluminum');
+CALL adminMaterialType.insertMaterialType('Organics');
+CALL adminMaterialType.insertMaterialType('Chatarra');
+
+CALL adminMaterialType.insertMaterialType(Plastico);

@@ -12,7 +12,7 @@ import oracle.jdbc.OracleTypes;
 public class UsersDAO {
 
     public List<User> getUsers(String userId, String username, String name, String idNumber, String provinceId, String districtId, String cityId) {
-        String sql = "{ call ? := UserManager.getUsers(?, ?, ?, ?, ?, ?, ?) }";
+        String sql = "{ ? = call USERMANAGER.GETUSERS(?, ?, ?, ?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -28,12 +28,10 @@ public class UsersDAO {
             cs.setString(6, provinceId);
             cs.setString(7, districtId);
             cs.setString(8, cityId);
-            
-            String temp = cs.toString();
-            
+
             cs.execute();
 
-            try (ResultSet rs = cs.getResultSet()) {
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
 
                 List<User> list = new ArrayList<>();
                 while (rs.next()) {
@@ -47,15 +45,15 @@ public class UsersDAO {
                             rs.getString("PASSWORD"),
                             rs.getString("IDNUMBER"),
                             rs.getString("ADDRESS") + ", " +
-                                    rs.getString("DistrictName") + ", " + rs.getString("cityName")
+                                    rs.getString("districtName") + ", " + rs.getString("cityName")
                             + ", " + rs.getString("countryName"),
                             rs.getString("PHOTOURL"),
                             rs.getString("CREATEDBY"),
                             rs.getDate("CREATEDDATE"),
                             rs.getString("UPDATEDBY"),
-                            rs.getDate("UDATEDDATE"),
+                            rs.getDate("UPDATEDDATE"),
                             rs.getString("genderName"),
-                            rs.getString("idTypename"),
+                            rs.getString("idTypeName"),
                             rs.getString("userTypeName"),
                             rs.getInt("balance")
                     )
@@ -71,5 +69,20 @@ public class UsersDAO {
         }
         return null;
     }
-
+    
+    public void addUser(User user){
+        
+        String sql = '{call USERMANAGER.INSERTUSER(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}';
+    
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+            
+            //Input parameters
+            cs.setString(1, user.getFirstName());
+            cs.setString(1, user.getFirstName());
+            
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+        }
+    }
 }
