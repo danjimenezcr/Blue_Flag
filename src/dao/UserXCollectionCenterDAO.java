@@ -32,16 +32,14 @@ public class UserXCollectionCenterDAO {
                 List<UserXCollectionCenter> list = new ArrayList<>();
                 while (rs.next()) {
                     list.add( new UserXCollectionCenter(rs.getInt("id"),
-                                    rs.getInt("kilograms"),
-                                    rs.getString(" CREATEDBY"),
-                                    rs.getDate("CREATEDDATE"),
-                                    rs.getString("UPDATEDBY"),
-                                    rs.getDate("UPDATEDDATE"),
-                                    rs.getInt("Points"),
-                                    rs.getString("Material"),
+                                    rs.getString("User"),
+                                    rs.getString("createdBy"),
+                                    rs.getDate("createdDateTime"),
+                                    rs.getString("updatedBy"),
+                                    rs.getDate("updatedDateTime"),
                                     rs.getString("CollectionCenter"),
-                                    rs.getString("User")
-
+                                    rs.getInt("Points"),
+                                    rs.getInt("kilograms")
                             )
                     );
                     return list;

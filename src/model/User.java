@@ -19,19 +19,16 @@ public class User {
     private Date createdDate;
     private String updatedBy;
     private Date updatedDate;
-    private String genderName;
-    private String idTypeName;
-    private String userTypeName;
+    private Genders gender;
+    private IdType idType;
+    private UserTypes userType;
     private int pointsBalance;
-    private String districtName;
-    private String cityName;
-    private String provinceName;
-    private String countryName;
+    private District district;
 
     public User() {
     }
 
-    public User(int id, String firstName, String lastName, String secondName, String secondLastName, Date birthDate, String username, String password, String idNumber, String address, String photoUrl, String createdBy, Date createdDate, String updatedBy, Date updatedDate, String genderName, String idTypeName, String userTypeName, int pointsBalance) {
+    public User(int id, String firstName, String lastName, String secondName, String secondLastName, Date birthDate, String username, String password, String idNumber, String address, String photoUrl, String createdBy, Date createdDate, String updatedBy, Date updatedDate, Genders gender, IdType idType, UserTypes userType, int pointsBalance, District district) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,10 +44,11 @@ public class User {
         this.createdDate = createdDate;
         this.updatedBy = updatedBy;
         this.updatedDate = updatedDate;
-        this.genderName = genderName;
-        this.idTypeName = idTypeName;
-        this.userTypeName = userTypeName;
+        this.gender = gender;
+        this.idType = idType;
+        this.userType = userType;
         this.pointsBalance = pointsBalance;
+        this.district = district;
     }
 
     public int getId() {
@@ -173,57 +171,36 @@ public class User {
         this.updatedDate = updatedDate;
     }
 
-    public String getGenderName() {
-        return genderName;
+    public Genders getGender() {
+        return gender;
     }
 
-    public void setGenderName(String genderId) {
-        this.genderName = genderId;
+    public void setGender(Genders gender) {
+        this.gender = gender;
     }
 
-    public String getIdTypeName() {
-        return idTypeName;
+    public IdType getIdType() {
+        return idType;
     }
 
-    public void setIdTypeName(String idTypeName) {
-        this.idTypeName = idTypeName;
+    public void setIdType(IdType idType) {
+        this.idType = idType;
     }
 
-    public String getUserTypeName() {
-        return userTypeName;
+    public UserTypes getUserType() {
+        return userType;
     }
 
-    public void setUserTypeName(String userTypeName) {
-        this.userTypeName = userTypeName;
+    public void setUserType(UserTypes userType) {
+        this.userType = userType;
     }
 
-    public String getDistrictName() {
-        return districtName;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setDistrictName(String districtName) {
-        this.districtName = districtName;
-    }
-    public String getCityName() {
-        return cityName;
-    }
-
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
-    public String getProvinceName() {
-        return provinceName;
-    }
-
-    public void setProvinceName(String provinceName) {
-        this.provinceName = provinceName;
-    }
-    public String getCountryName() {
-        return countryName;
-    }
-
-    public void setCountryName(String countryName) {
-        this.countryName = countryName;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 
     public int getPointsBalance() {

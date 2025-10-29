@@ -30,11 +30,12 @@ public class BusinessTypeDAO {
                 List<BusinessType> list = new ArrayList<>();
                 while (rs.next()) {
                     list.add( new BusinessType(rs.getInt("id"),
-                                    rs.getString(" CREATEDBY"),
-                                    rs.getDate("CREATEDDATE"),
-                                    rs.getString("UPDATEDBY"),
-                                    rs.getDate("UPDATEDDATE"),
-                                    rs.getString("description")
+                                    rs.getString("description"),
+                                    rs.getString("createdBy"),
+                                    rs.getDate("createdDateTime"),
+                                    rs.getString("updatedBy"),
+                                    rs.getDate("updatedDateTime")
+                                    
                             )
                     );
                     return list;

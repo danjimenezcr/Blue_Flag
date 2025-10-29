@@ -1,6 +1,6 @@
 package dao;
 
-import model.User;
+import model.*;
 import util.DBConnection;
 
 import java.sql.*;
@@ -11,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class UsersDAO {
 
-    public List<User> getUsers(String userId, String username, String name, String idNumber, String provinceId, String districtId, String cityId) {
+    public List<User> getUsers(int userId, String username, String name, String idNumber, String provinceId, String districtId, String cityId) {
         String sql = "{ ? = call USERMANAGER.GETUSERS(?, ?, ?, ?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -21,7 +21,7 @@ public class UsersDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, userId);
+            cs.setInt(2, userId);
             cs.setString(3, username);
             cs.setString(4, name);
             cs.setString(5, idNumber);
@@ -35,27 +35,31 @@ public class UsersDAO {
 
                 List<User> list = new ArrayList<>();
                 while (rs.next()) {
+                    District district = new DistrictDAO().getDistricts(rs.getInt("districtId"), null, null).get(0);
+                    Genders gender = new GenderDAO().getGenders(rs.getInt("genderId")).get(0);
+                    IdType idtype = new IdTypeDAO().getIdTypes(rs.getInt("idTypeId")).get(0);
+                    UserTypes usertype = new UserTypesDAO().getUserTypes(rs.getInt("userTypeId")).get(0);
+
                     list.add( new User(rs.getInt("id"),
-                            rs.getString("FIRSTNAME"),
+                                    rs.getString("FIRSTNAME"),
                                     rs.getString("SECONDNAME"),
                                     rs.getString("LASTNAME"),
                                     rs.getString("SECONDLASTNAME"),
-                            rs.getDate("BIRTHDATE"),
-                            rs.getString("username"),
-                            rs.getString("PASSWORD"),
-                            rs.getString("IDNUMBER"),
-                            rs.getString("ADDRESS") + ", " +
-                                    rs.getString("districtName") + ", " + rs.getString("cityName")
-                            + ", " + rs.getString("countryName"),
-                            rs.getString("PHOTOURL"),
-                            rs.getString("CREATEDBY"),
-                            rs.getDate("CREATEDDATE"),
-                            rs.getString("UPDATEDBY"),
-                            rs.getDate("UPDATEDDATE"),
-                            rs.getString("genderName"),
-                            rs.getString("idTypeName"),
-                            rs.getString("userTypeName"),
-                            rs.getInt("balance")
+                                    rs.getDate("BIRTHDATE"),
+                                    rs.getString("username"),
+                                    rs.getString("PASSWORD"),
+                                    rs.getString("IDNUMBER"),
+                                    rs.getString("ADDRESS"),
+                                    rs.getString("PHOTOURL"),
+                                    rs.getString("CREATEDBY"),
+                                    rs.getDate("CREATEDDATE"),
+                                    rs.getString("UPDATEDBY"),
+                                    rs.getDate("UPDATEDDATE"),
+                                    gender,
+                                    idtype,
+                                    usertype,
+                                    rs.getInt("balance"),
+                                    district
                     )
                     );
                     return list;
@@ -71,18 +75,74 @@ public class UsersDAO {
     }
     
     public void addUser(User user){
-        
-        String sql = '{call USERMANAGER.INSERTUSER(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}';
+        String sql = "{call USERMANAGER.INSERTUSER(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
     
         try (Connection conn = DBConnection.getConnection()){
             CallableStatement cs = conn.prepareCall(sql);
             
             //Input parameters
             cs.setString(1, user.getFirstName());
-            cs.setString(1, user.getFirstName());
-            
+            cs.setDate(2, (Date) user.getBirthDate());
+            cs.setString(3, user.getUsername());
+            cs.setString(4, user.getSecondName());
+            cs.setString(5, user.getLastName());
+            cs.setString(6, user.getSecondLastName());
+            cs.setString(7, user.getPassword());
+            cs.setString(8, user.getPhotoUrl());
+            cs.setInt(9, user.getGender().getId());
+            cs.setInt(10, user.getIdType().getId());
+            cs.setInt(11, user.getUserType().getId());
+            cs.setInt(12, user.getDistrict().getId());
+            cs.setString(13, user.getAddress());
+            cs.setString(14, user.getIdNumber());
+
+            cs.execute();
+
         } catch (Exception e){
             System.out.println("Failed to connect to database: " + e.getMessage());
         }
     }
+        
+    public void deleteUser(User user){
+        String sql = "{call USERMANAGER.DELETEUSER(?)}}";
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, user.getId());
+
+            cs.execute();
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+        }
+
+    }
+
+    public void updateUser(User user){
+        String sql = "{call USERMANAGER.INSERTUSER(?, ?, ?, ?, ?, ?, ?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, user.getId());
+            cs.setString(2, user.getFirstName());
+            cs.setDate(3, (Date) user.getBirthDate());
+            cs.setString(4, user.getLastName());
+            cs.setInt(5, user.getGender().getId());
+            cs.setInt(6, user.getDistrict().getId());
+            cs.setString(7, user.getAddress());
+
+            cs.execute();
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new DistrictDAO().getDistricts(0, null, null));
+    }
+
 }

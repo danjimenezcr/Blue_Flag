@@ -1,31 +1,31 @@
 package model;
 
-import java.util.Date; // if needed
+import java.util.Date; 
 
 public class ProductXUser {
 
     private int id;
-    private int userId;
+    private User user;
     private String createdBy;
     private Date createdDateTime;
     private String updatedBy;
     private Date updatedDateTime;
     private int quantity;
-    private int productId;
+    private Product product;
 
     public ProductXUser() {
     }
 
-    public ProductXUser(int id, int userId, String createdBy, Date createdDateTime,
-                        String updatedBy, Date updatedDateTime, int quantity, int productId) {
+    public ProductXUser(int id, User user, String createdBy, Date createdDateTime,
+                        String updatedBy, Date updatedDateTime, int quantity, Product product) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.createdBy = createdBy;
         this.createdDateTime = createdDateTime;
         this.updatedBy = updatedBy;
         this.updatedDateTime = updatedDateTime;
         this.quantity = quantity;
-        this.productId = productId;
+        this.product = product;
     }
 
     public int getId() {
@@ -36,12 +36,12 @@ public class ProductXUser {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getCreatedBy() {
@@ -84,11 +84,11 @@ public class ProductXUser {
         this.quantity = quantity;
     }
 
-    public int getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(int productId) {
-        this.productId = productId;
+    public void setProductId(Product product) {
+        this.product = product;
     }
 }

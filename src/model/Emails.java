@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date; // if needed
+import java.util.Date; 
 
 public class Emails {
 
@@ -10,22 +10,22 @@ public class Emails {
     private Date createdDate;
     private String updatedBy;
     private Date updatedDate;
-    private int labelId;
-    private int userId;
+    private Labels labels;
+    private User user;
 
     public Emails() {
     }
 
     public Emails(int id, String emailAddress, String createdBy, Date createdDate,
-                  String updatedBy, Date updatedDate, int labelId, int userId) {
+                  String updatedBy, Date updatedDate, Labels labels, User user) {
         this.id = id;
         this.emailAddress = emailAddress;
         this.createdBy = createdBy;
         this.createdDate = createdDate;
         this.updatedBy = updatedBy;
         this.updatedDate = updatedDate;
-        this.labelId = labelId;
-        this.userId = userId;
+        this.labels = labels;
+        this.user = user;
     }
 
     public int getId() {
@@ -76,19 +76,19 @@ public class Emails {
         this.updatedDate = updatedDate;
     }
 
-    public int getLabelId() {
-        return labelId;
+    public Labels getLabel() {
+        return labels;
     }
 
-    public void setLabelId(int labelId) {
-        this.labelId = labelId;
+    public void setLabelId(Labels label) {
+        this.labels = label;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(User user) {
+        this.user = user;
     }
 }

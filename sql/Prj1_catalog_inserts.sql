@@ -50,6 +50,9 @@ CALL adminMaterialType.insertMaterialType('Electronics');
 CALL adminMaterialType.insertMaterialType('PaperBoard');
 CALL adminMaterialType.insertMaterialType('aluminum');
 CALL adminMaterialType.insertMaterialType('Organics');
-CALL adminMaterialType.insertMaterialType('Chatarra');
+CALL adminMaterialType.insertMaterialType('Scrap');
 
-CALL adminMaterialType.insertMaterialType(Plastico);
+CALL adminCenterType.insertCenterType('Multi-material: accepts all types of materials');
+CALL adminCenterType.insertCenterType('Mono-material: one type of materials');
+CALL adminCenterType.insertCenterType('Electronics: accepts only Electronics, computers, cellphone');
+CALL adminCenterType.insertCenterType('Organics: Food waste or plant pruning (composting)');

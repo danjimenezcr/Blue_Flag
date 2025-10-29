@@ -10,17 +10,17 @@ import java.util.List;
 
 public class CityDAO {
 
-    public List<City> getCities(String cityId, String name, String provinceId) {
+    public List<City> getCities(int cityId, String name, String provinceId) {
         String sql = "{ call ? := CityManager.getCities(?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
 
-            // Out Parameter (cursor)
+            // Out Parameter 
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // Input Parameters
-            cs.setString(2, cityId);
+            cs.setInt(2, cityId);
             cs.setString(3, name);
             cs.setString(4, provinceId);
 
@@ -33,10 +33,10 @@ public class CityDAO {
                     list.add(new City(
                             rs.getInt("id"),
                             rs.getString("name"),
-                            rs.getString("updatedBy"),
-                            rs.getDate("updatedDateTime"),
-                            rs.getString("createdBy"),
                             rs.getDate("createdDateTime"),
+                            rs.getString("createdBy"),
+                            rs.getDate("updatedDateTime"),
+                            rs.getString("updatedBy"),
                             rs.getInt("provinceId")
                     ));
                 return list;

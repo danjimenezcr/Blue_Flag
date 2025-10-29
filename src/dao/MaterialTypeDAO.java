@@ -1,3 +1,5 @@
+package dao;
+
 import model.MaterialType;
 import util.DBConnection;
 
@@ -9,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class MaterialTypeDAO {
 
-    public List<MaterialType> getMaterialType(String id, String name) {
+    public List<MaterialType> getMaterialType(int id, String name) {
         String sql = "{ ? = call adminMaterialType.getMaterialType(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -19,9 +21,8 @@ public class MaterialTypeDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, name);
-            System.out.println(cs.toString());
 
             cs.execute();
 
@@ -29,7 +30,7 @@ public class MaterialTypeDAO {
 
                 List<MaterialType> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add( new MaterialType(rs.getInt("id"),
+                    list.add(new MaterialType(rs.getInt("id"),
                                     rs.getString("name"),
                                     rs.getString("createdBy"),
                                     rs.getDate("createdDateTime"),
@@ -37,14 +38,15 @@ public class MaterialTypeDAO {
                                     rs.getDate("updatedDateTime")
                             )
                     );
-                    return list;
-                }
 
-            } catch (Exception e){
+                }
+                return list;
+            } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("Failed to connect to database! " + e.getMessage());
         }
         return null;
     }
+}

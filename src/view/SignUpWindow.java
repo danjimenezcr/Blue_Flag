@@ -88,6 +88,8 @@ public class SignUpWindow extends javax.swing.JFrame {
         });
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         leftPanel = new javax.swing.JPanel();
+        icon = new javax.swing.JLabel();
+        titleCompany = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -325,15 +327,36 @@ public class SignUpWindow extends javax.swing.JFrame {
         leftPanel.setAlignmentX(0.0F);
         leftPanel.setAlignmentY(0.0F);
 
+        icon.setIcon(new javax.swing.ImageIcon("/Users/dannyjimenez/OneDrive - Estudiantes ITCR/TEC - Software Engineering/2025_II_Semester/Databases_I/Project_1_Blue_Flag/images/icon_100x100.png")); // NOI18N
+        icon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        titleCompany.setBackground(new java.awt.Color(0, 51, 102));
+        titleCompany.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        titleCompany.setForeground(new java.awt.Color(255, 255, 255));
+        titleCompany.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        titleCompany.setText("BLUE");
+
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
         leftPanel.setLayout(leftPanelLayout);
         leftPanelLayout.setHorizontalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, leftPanelLayout.createSequentialGroup()
+                .addContainerGap(129, Short.MAX_VALUE)
+                .addComponent(icon)
+                .addGap(119, 119, 119))
+            .addGroup(leftPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleCompany, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         leftPanelLayout.setVerticalGroup(
             leftPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(leftPanelLayout.createSequentialGroup()
+                .addGap(182, 182, 182)
+                .addComponent(icon)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(titleCompany)
+                .addContainerGap(221, Short.MAX_VALUE))
         );
 
         splitter.setLeftComponent(leftPanel);
@@ -414,6 +437,7 @@ public class SignUpWindow extends javax.swing.JFrame {
     private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel disclaimer;
     private javax.swing.JTextField firstNameInput;
+    private javax.swing.JLabel icon;
     private javax.swing.JComboBox<String> idTypes;
     private javax.swing.JComboBox<String> idTypes1;
     private javax.swing.JComboBox<String> idTypes2;
@@ -427,6 +451,7 @@ public class SignUpWindow extends javax.swing.JFrame {
     private javax.swing.JPanel rightPanel;
     private javax.swing.JSplitPane splitter;
     private javax.swing.JLabel title;
+    private javax.swing.JLabel titleCompany;
     private javax.swing.JTextField usernameInput;
     private javax.swing.JTextField usernameInput4;
     // End of variables declaration//GEN-END:variables

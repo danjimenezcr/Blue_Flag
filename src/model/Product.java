@@ -1,6 +1,6 @@
 package model;
 
-import java.util.Date; // if needed
+import java.util.Date; 
 
 public class Product {
 
@@ -12,14 +12,14 @@ public class Product {
     private String createdBy;
     private Date updatedDateTime;
     private String updatedBy;
-    private int authorizedEntityId;
+    private AutorizedEntity autorizedEntity;
 
     public Product() {
     }
 
     public Product(int id, String description, String photoUrl, double cost,
                    Date createdDateTime, String createdBy, Date updatedDateTime,
-                   String updatedBy, int authorizedEntityId) {
+                   String updatedBy, AutorizedEntity autorizedEntity) {
         this.id = id;
         this.description = description;
         this.photoUrl = photoUrl;
@@ -28,7 +28,7 @@ public class Product {
         this.createdBy = createdBy;
         this.updatedDateTime = updatedDateTime;
         this.updatedBy = updatedBy;
-        this.authorizedEntityId = authorizedEntityId;
+        this.autorizedEntity = autorizedEntity;
     }
 
     public int getId() {
@@ -95,11 +95,11 @@ public class Product {
         this.updatedBy = updatedBy;
     }
 
-    public int getAuthorizedEntityId() {
-        return authorizedEntityId;
+    public AutorizedEntity getAutorizedEntityId() {
+        return autorizedEntity;
     }
 
-    public void setAuthorizedEntityId(int authorizedEntityId) {
-        this.authorizedEntityId = authorizedEntityId;
+    public void setAutorizedEntityId(AutorizedEntity autorizedEntity) {
+        this.autorizedEntity = autorizedEntity;
     }
 }

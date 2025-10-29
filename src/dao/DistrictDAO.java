@@ -10,7 +10,7 @@ import oracle.jdbc.OracleTypes;
 
 public class DistrictDAO {
 
-    public List<District> getDistricts(String districtId, String name, String cityId) {
+    public List<District> getDistricts(int districtId, String name, String cityId) {
         String sql = "{ call ? := DistrictManager.getDistricts(?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -20,7 +20,7 @@ public class DistrictDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // Input Parameters
-            cs.setString(2, districtId);
+            cs.setInt(2, districtId);
             cs.setString(3, name);
             cs.setString(4, cityId);
 

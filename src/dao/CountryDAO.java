@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CountryDAO {
 
-    public List<Country> getCountries(String countryId, String name) {
+    public List<Country> getCountries(Int countryId, String name) {
         String sql = "{ call ? := CountryManager.getCountries(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -20,7 +20,7 @@ public class CountryDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parameters
-            cs.setString(2, countryId);
+            cs.setInt(2, countryId);
             cs.setString(3, name);
 
             cs.execute();
@@ -30,11 +30,12 @@ public class CountryDAO {
                 List<Country> list = new ArrayList<>();
                 while (rs.next()) {
                     list.add(new Country(
-                            rs.getString("countryName"),
-                            rs.getString("updatedBy"),
-                            rs.getDate("updatedDateTime"),
+                            rs.getInt("id"),
+                            rs.getString("name"),
+                            rs.getDate("createdDateTime"),
                             rs.getString("createdBy"),
-                            rs.getDate("createdDateTime")
+                            rs.getDate("updatedDateTime"),
+                            rs.getString("updatedBy")
                     ));
                 return list;
                 }

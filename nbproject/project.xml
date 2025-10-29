@@ -6,7 +6,6 @@
             <name>Blue_Flag</name>
             <source-roots>
                 <root id="src.dir"/>
-                <root id="src.images.dir"/>
                 <root id="src.sql.dir"/>
             </source-roots>
             <test-roots>

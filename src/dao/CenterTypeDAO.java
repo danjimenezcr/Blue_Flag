@@ -1,4 +1,6 @@
-import model.MaterialTypeXCollectionCenter;
+package dao;
+
+import model.CenterType;
 import util.DBConnection;
 
 import java.sql.*;
@@ -7,10 +9,10 @@ import java.util.List;
 import oracle.jdbc.OracleTypes;
 
 
-public class MaterialTypeXCollectionCenterDAO {
+public class CenterTypeDAO {
 
-    public List<MaterialTypeXCollectionCenter> getListaMateriales(String id) {
-        String sql = "{ ? = call adminTMXCenter.getListaMateriales(?) }";
+    public List<CenterType> getCenterType(String id, String description) {
+        String sql = "{ ? = call adminCenterType.getCenterType(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -20,19 +22,21 @@ public class MaterialTypeXCollectionCenterDAO {
 
             //Parameters Input
             cs.setString(2, id);
+            cs.setString(3, description);
             System.out.println(cs.toString());
 
             cs.execute();
 
             try (ResultSet rs = (ResultSet) cs.getObject(1)) {
 
-                List<MaterialTypeXCollectionCenter> list = new ArrayList<>();
+                List<CenterType> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add( new MaterialTypeXCollectionCenter(rs.getInt("CollectionCenter"),
-                                    rs.getInt("year"),
-                                    rs.getInt("month"),
-                                    rs.getInt("total_tipo_material"),
-                                    rs.getInt("total_kilograms")
+                    list.add( new CenterType(rs.getInt("id"),
+                                    rs.getString("description"),
+                                    rs.getString("createdBy"),
+                                    rs.getDate("createdDateTime"),
+                                    rs.getString("updatedBy"),
+                                    rs.getDate("updatedDateTime")
                             )
                     );
                     return list;

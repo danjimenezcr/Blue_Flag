@@ -10,20 +10,20 @@ public class City {
     private String createdBy;
     private Date updatedDateTime;
     private String updatedBy;
-    private int provinceId;
+    private Province province;
 
     public City() {
     }
 
     public City(int id, String name, Date createdDateTime, String createdBy,
-                Date updatedDateTime, String updatedBy, int provinceId) {
+                Date updatedDateTime, String updatedBy, Province province) {
         this.id = id;
         this.name = name;
         this.createdDateTime = createdDateTime;
         this.createdBy = createdBy;
         this.updatedDateTime = updatedDateTime;
         this.updatedBy = updatedBy;
-        this.provinceId = provinceId;
+        this.province = province;
     }
 
     public int getId() {
@@ -74,11 +74,11 @@ public class City {
         this.updatedBy = updatedBy;
     }
 
-    public int getProvinceId() {
-        return provinceId;
+    public Province getProvince() {
+        return province;
     }
 
-    public void setProvinceId(int provinceId) {
-        this.provinceId = provinceId;
+    public void setProvince(Province province) {
+        this.province = province;
     }
 }

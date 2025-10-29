@@ -32,7 +32,11 @@ public class CurrencyDAO {
                 while (rs.next()) {
                     list.add( new Currency(rs.getInt("id"),
                                     rs.getString("code"),
-                                    rs.getString("Symbol")
+                                    rs.getString("createdBy"),
+                                    rs.getDate("createdDateTime"),
+                                    rs.getString("updatedBy"),
+                                    rs.getDate("updatedDateTime"),
+                                    rs.getString("symbol")
                             )
                     );
                     return list;

@@ -33,6 +33,10 @@ public class PointsConvertionDAO {
                 while (rs.next()) {
                     list.add( new PointsConvertion(rs.getInt("id"),
                                     rs.getString("name"),
+                                    rs.getString("createdBy"),
+                                    rs.getDate("createdDateTime"),
+                                    rs.getString("updatedBy"),
+                                    rs.getDate("updatedDateTime"),
                                     rs.getInt("pointsPerKg"),
                                     rs.getInt("valueInCurrency"),
                                     rs.getString("currencyCode"),
