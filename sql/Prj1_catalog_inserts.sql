@@ -82,7 +82,7 @@ CALL adminTMXCenter.insertTMXCenter('2','3');
 CALL adminTMXCenter.insertTMXCenter('2','5');
 CALL adminTMXCenter.insertTMXCenter('2','6');
 CALL adminTMXCenter.insertTMXCenter('2','7');
-CALL adminTMXCenter.insertTMXCenter('2','8');
+CALL adminTMXCenter.insertTMXCenter('2','9');
 
 CALL adminTMXCenter.insertTMXCenter('4','1');
 CALL adminTMXCenter.insertTMXCenter('4','3');
@@ -95,6 +95,26 @@ CALL adminTMXCenter.insertTMXCenter('5','3');
 CALL adminTMXCenter.insertTMXCenter('5','5');
 CALL adminTMXCenter.insertTMXCenter('5','6');
 CALL adminTMXCenter.insertTMXCenter('5','7');
+
+CALL adminCurrency.insertCurrency('CRC', '₡');
+CALL adminCurrency.insertCurrency('USD', '$');
+CALL adminCurrency.insertCurrency('EUR', '€');
+
+--name, pointsperKg, valueInCurrency, materialTypeid
+
+CALL adminPointsConvertion.insertPointsConvertion('Plástic', 10, 50, 1, 1);
+CALL adminPointsConvertion.insertPointsConvertion('PaperBoard', 8, 40, 1, 5);
+CALL adminPointsConvertion.insertPointsConvertion('Glass', 6, 25, 1, 9);
+CALL adminPointsConvertion.insertPointsConvertion('Aluminum', 15, 80, 1, 6);
+CALL adminPointsConvertion.insertPointsConvertion('Paper', 5, 20, 1, 3);
+CALL adminPointsConvertion.insertPointsConvertion('Metal', 20, 100, 1, 2);
+CALL adminPointsConvertion.insertPointsConvertion('Electronic', 18, 90, 1, 4);
+CALL adminPointsConvertion.insertPointsConvertion('Organics', 3, 15, 1, 7);
+CALL adminPointsConvertion.insertPointsConvertion('Scrap', 15, 80, 1, 8);
+
+
+--idUser,CollectionCenter,pointskey, kilograms
+CALL adminUserXCollectionCenter.insertUserXCollectionCenter(1,4,1,3); 
 
 
 
