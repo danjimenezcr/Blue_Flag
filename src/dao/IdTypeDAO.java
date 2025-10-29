@@ -1,6 +1,7 @@
  package dao;
 
 import model.IdType;
+import model.UserTypes;
 import util.DBConnection;
 
 import java.sql.*;
@@ -10,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class IdTypeDAO {
 
-    public List<IdType> getIdTypes(int id) {
+    public List<IdType> getIdTypes(Integer id) {
         String sql = "{ call ? := idTypeManager.getIdTypes(?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -20,7 +21,8 @@ public class IdTypeDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parámetro
-            cs.setInt(2, id);
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
 
             cs.execute();
 
@@ -46,5 +48,53 @@ public class IdTypeDAO {
         System.out.println("Failed to connect to database! " + e.getMessage());
     }
         return null;
+    }
+
+    public void addIdType(IdType idType) {
+        String sql = "{call IDTYPEMANAGER.INSERTIDTYPE(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setString(1, idType.getName());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteIdType(IdType idType) {
+        String sql = "{call IDTYPEMANAGER.DELETEIDTYPE(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, idType.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateIdType(IdType idType) {
+        String sql = "{call IDTYPESMANAGER.UPDATEIDTYPE(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, idType.getId());
+            cs.setString(2, idType.getName());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

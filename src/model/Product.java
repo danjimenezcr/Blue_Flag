@@ -95,11 +95,11 @@ public class Product {
         this.updatedBy = updatedBy;
     }
 
-    public AutorizedEntity getAutorizedEntityId() {
+    public AutorizedEntity getAutorizedEntity() {
         return autorizedEntity;
     }
 
-    public void setAutorizedEntityId(AutorizedEntity autorizedEntity) {
+    public void setAutorizedEntity(AutorizedEntity autorizedEntity) {
         this.autorizedEntity = autorizedEntity;
     }
 }

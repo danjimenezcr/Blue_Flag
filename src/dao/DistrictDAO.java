@@ -2,6 +2,7 @@ package dao;
 
 import model.City;
 import model.District;
+import model.User;
 import util.DBConnection;
 
 import java.sql.*;
@@ -57,4 +58,55 @@ public class DistrictDAO {
         return null;
     }
 
-}  
+
+    public void addDistrict(District district) {
+        String sql = "{call DISTRICTMANAGER.INSERTDISTRICT(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setString(1, district.getName());
+            cs.setInt(2, district.getCity().getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteDistrict(District district){
+        String sql = "{call DISTRICTMANAGER.DELETEDISTRICT(?)}";
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, district.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateDistrict(District district) {
+        String sql = "{call CITYMANAGER.UPDATEDISTRICT(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, district.getId());
+            cs.setString(2, district.getName());
+            cs.setInt(3, district.getCity().getId());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+
+

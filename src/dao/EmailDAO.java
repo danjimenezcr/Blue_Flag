@@ -2,6 +2,7 @@ package dao;
 
 import model.Emails;
 import model.Labels;
+import model.Phones;
 import model.User;
 import util.DBConnection;
 
@@ -13,7 +14,7 @@ import oracle.jdbc.OracleTypes;
 
 public class EmailDAO {
 
-    public List<Emails> getEmails(String userId, String emailId) {
+    public List<Emails> getEmails(Integer userId, Integer emailId) {
         String sql = "{ call ? := EmailManager.getEmails(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -23,8 +24,10 @@ public class EmailDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parameters
-            cs.setString(2, userId);  
-            cs.setString(3, emailId);  
+            if(userId != null)  cs.setInt(2, userId);
+            else cs.setNull(2, OracleTypes.INTEGER);
+            if  (emailId != null) cs.setInt(3, emailId);
+            else cs.setNull(3, OracleTypes.VARCHAR);
 
             cs.execute();
 
@@ -55,4 +58,58 @@ public class EmailDAO {
     }
         return null;
     }
+
+    public void addEmails(Emails emails) {
+        String sql = "{call EMAILMANAGER.INSERTEMAIL(?, ?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setInt(1, emails.getUser().getId());
+            cs.setString(2, emails.getEmailAddress());
+            cs.setInt(3, emails.getLabel().getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteEmails(Emails emails) {
+        String sql = "{call EMAILMANAGER.DELETEEMAIL(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, emails.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEmails(Emails emails) {
+        String sql = "{call EMAILMANAGER.UPDATEEMAIL(?, ?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+
+            cs.setInt(1, emails.getId());
+            cs.setString(2, emails.getEmailAddress());
+            cs.setInt(3, emails.getLabel().getId());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -1,14 +1,15 @@
 package model;
 
 import java.nio.file.FileStore;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class AffiliatedBusiness {
 
     private int autorizedEntityId; 
     private String name;
-    private String openHour;
-    private String closeHour;
+    private Timestamp openHour;
+    private Timestamp closeHour;
     private String manager;
     private String contact;
     private District district;
@@ -22,7 +23,7 @@ public class AffiliatedBusiness {
     }
 
 
-    public AffiliatedBusiness(int autorizedEntityId, String name, String openHour, String closeHour,
+    public AffiliatedBusiness(int autorizedEntityId, String name, Timestamp openHour, Timestamp closeHour,
                               String manager, String contact, District district, BusinessType businessType,
                               String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime) {
         this.autorizedEntityId = autorizedEntityId;
@@ -56,19 +57,19 @@ public class AffiliatedBusiness {
          this.name = name; 
     }
 
-    public String getOpenHour() { 
+    public Timestamp getOpenHour() {
         return openHour; 
     }
 
-    public void setOpenHour(String openHour) { 
+    public void setOpenHour(Timestamp openHour) {
         this.openHour = openHour; 
     }
 
-    public String getCloseHour() { 
+    public Timestamp getCloseHour() {
         return closeHour; 
     }
 
-    public void setCloseHour(String closeHour) { 
+    public void setCloseHour(Timestamp closeHour) {
         this.closeHour = closeHour; 
     }
 

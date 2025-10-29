@@ -11,6 +11,23 @@ import oracle.jdbc.OracleTypes;
 
 public class CenterTypeDAO {
 
+    public int addCenterType(CenterType centerType) {
+        String sql = "{ call adminCenterType.insertCenterType(?) }";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setString(1, centerType.getDescription());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
     public List<CenterType> getCenterType(Integer id, String description) {
         String sql = "{ ? = call adminCenterType.getCenterType(?, ?) }";
 
@@ -20,10 +37,16 @@ public class CenterTypeDAO {
             // Out Parameter
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
+
+            if(description != null) cs.setString(3, description);
+            else cs.setNull(3, OracleTypes.VARCHAR);
+
             //Parameters Input
             cs.setInt(2, id);
             cs.setString(3, description);
-            System.out.println(cs.toString());
+            System.out.println(cs);
 
             cs.execute();
 
@@ -49,6 +72,39 @@ public class CenterTypeDAO {
             System.out.println("Failed to connect to database! " + e.getMessage());
         }
         return null;
+    }
+
+    public void deleteCenterType(CenterType centerType){
+        String sql = "{call adminCenterType.removeCenterType(?)}}";
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, centerType.getId());
+
+            cs.execute();
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateCenterType(CenterType centerType){
+        String sql = "{call adminCenterType.updateCenterType(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, centerType.getId());
+            cs.setString(2, centerType.getDescription());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
 }

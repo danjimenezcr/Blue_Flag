@@ -1,6 +1,7 @@
 package dao;
 
 import model.Genders;
+import model.Province;
 import util.DBConnection;
 
 import java.sql.*;
@@ -10,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class GenderDAO {
 
-    public List<Genders> getGenders(int id) {
+    public List<Genders> getGenders(Integer id) {
         String sql = "{ call ? := gendersManager.getGenders(?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -20,7 +21,8 @@ public class GenderDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parámetro
-            cs.setInt(2, id);
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
 
             cs.execute();
 
@@ -46,5 +48,53 @@ public class GenderDAO {
         System.out.println("Failed to connect to database! " + e.getMessage());
     }
         return null;
+    }
+
+    public void addGender(Genders genders) {
+        String sql = "{call GENDERSMANAGER.INSERTGENDER(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setString(1, genders.getName());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteGender(Genders genders) {
+        String sql = "{call GENDERSMANAGER.DELETEGENDER(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, genders.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateGender(Genders genders) {
+        String sql = "{call GENDERSMANAGER.UPDATEGENDER(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, genders.getId());
+            cs.setString(2, genders.getName());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

@@ -54,5 +54,54 @@ public class CityDAO {
         return null;
     }
 
-    
+    public void addCity(City city) {
+        String sql = "{call CITYMANAGER.INSERTCITY(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+                // Input parameters
+            cs.setString(1, city.getName());
+            cs.setInt(2, city.getProvince().getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteCity(City city){
+        String sql = "{call CITYMANAGER.DELETECITY(?)}";
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, city.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCity(City city) {
+        String sql = "{call CITYMANAGER.UPDATECITY(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, city.getId());
+            cs.setString(2, city.getName());
+            cs.setInt(3, city.getProvince().getId());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }
+
+

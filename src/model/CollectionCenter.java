@@ -1,12 +1,13 @@
 package model;
 
+import java.sql.Timestamp;
 import java.util.Date; // if needed
 public class CollectionCenter {
 
     private int autorizedEntityId;
     private String name;
-    private String openHour;
-    private String closeHour;
+    private Timestamp openHour;
+    private Timestamp closeHour;
     private String manager;
     private String contact;
     private District district;
@@ -19,7 +20,7 @@ public class CollectionCenter {
     public CollectionCenter() {
     }
 
-    public CollectionCenter(Integer autorizedEntityId, String name, String openHour, String closeHour, String manager, String contact, CenterType centerType, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime, District district)
+    public CollectionCenter(Integer autorizedEntityId, String name, Timestamp openHour, Timestamp closeHour, String manager, String contact, CenterType centerType, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime, District district)
     {
         this.autorizedEntityId = autorizedEntityId;
         this.name = name;
@@ -52,20 +53,20 @@ public class CollectionCenter {
          this.name = name; 
     }
 
-    public String getOpenHour() { 
-        return openHour; 
+    public Timestamp getOpenHour() {
+        return openHour;
     }
 
-    public void setOpenHour(String openHour) { 
-        this.openHour = openHour; 
+    public void setOpenHour(Timestamp openHour) {
+        this.openHour = openHour;
     }
 
-    public String getCloseHour() { 
-        return closeHour; 
+    public Timestamp getCloseHour() {
+        return closeHour;
     }
 
-    public void setCloseHour(String closeHour) { 
-        this.closeHour = closeHour; 
+    public void setCloseHour(Timestamp closeHour) {
+        this.closeHour = closeHour;
     }
 
     public String getManager() { 

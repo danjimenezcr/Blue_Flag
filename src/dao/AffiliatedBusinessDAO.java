@@ -1,6 +1,8 @@
 package dao;
 
 import model.AffiliatedBusiness;
+import model.BusinessType;
+import model.District;
 import util.DBConnection;
 
 import java.sql.*;
@@ -39,7 +41,7 @@ public class AffiliatedBusinessDAO {
     }
 
 
-    public List<AffiliatedBusiness> getAffiliatedBusiness(String id, String name, String BusinessType, String districtId) {
+    public List<AffiliatedBusiness> getAffiliatedBusiness(Integer id, String name, Integer businessTypeid, Integer districtId) {
         String sql = "{ ? = call adminAffiliatedBusiness.getAffiliatedBusiness(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -48,12 +50,17 @@ public class AffiliatedBusinessDAO {
             // Out Parameter
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
-            //Parameters Input
-            cs.setString(2, id);
-            cs.setString(3, name);
-            cs.setString(4, BusinessType);
-            cs.setString(5, districtId);
-            System.out.println(cs.toString());
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
+
+            if(name != null) cs.setString(3, name);
+            else cs.setNull(3, OracleTypes.VARCHAR);
+
+            if(businessTypeid != null) cs.setInt(4, businessTypeid);
+            else cs.setNull(4, OracleTypes.VARCHAR);
+
+            if(districtId != null) cs.setInt(5, districtId);
+            else cs.setNull(5, OracleTypes.INTEGER);
 
             cs.execute();
 
@@ -61,14 +68,20 @@ public class AffiliatedBusinessDAO {
 
                 List<AffiliatedBusiness> list = new ArrayList<>();
                 while (rs.next()) {
+                    District district = new DistrictDAO().getDistricts(rs.getInt("DISTRICTID"), null, null).get(0);
+                    BusinessType businessType = new BusinessTypeDAO().getBusinessType(rs.getInt("BusinessTypeId"), null).get(0);
                     list.add( new AffiliatedBusiness(rs.getInt("id"),
                                     rs.getString("NAME"),
-                                    rs.getString("OPENHOUR"),
-                                    rs.getString("CLOSEHOUR"),
+                                    rs.getTimestamp("OPENHOUR"),
+                                    rs.getTimestamp("CLOSEHOUR"),
                                     rs.getString("MANAGER"),
                                     rs.getString("CONTACT"),
-                                    rs.getString("districtName"),
-                                    rs.getInt("BusinessTypeId")
+                                    district,
+                                    businessType,
+                                    rs.getString("CREATEDBY"),
+                                    rs.getDate("CREATEDDATETIME"),
+                                    rs.getString("UPDATEDBY"),
+                                    rs.getDate("UPDATEDDATETIME")
                             )
                     );
                     return list;
@@ -121,5 +134,10 @@ public class AffiliatedBusinessDAO {
                 e.printStackTrace();
             }
         }
+
+    public static void main(String[] args) {
+
+        System.out.println(new UserXCollectionCenterDAO().getTMXCenter(0, 0, 0, 0));
+    }
 }
 

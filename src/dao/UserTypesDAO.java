@@ -1,5 +1,6 @@
 package dao;
 
+import model.Genders;
 import model.UserTypes;
 import util.DBConnection;
 
@@ -10,8 +11,8 @@ import oracle.jdbc.OracleTypes;
 
 public class UserTypesDAO {
 
-    public List<UserTypes> getUserTypes(int id) {
-        String sql = "{ call ? = userTypesManager.getUserTypes(?) }";
+    public List<UserTypes> getUserTypes(Integer id) {
+        String sql = "{ ? = call userTypesManager.getUserTypes(?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -20,7 +21,8 @@ public class UserTypesDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parámetro
-            cs.setInt(2, id);
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
 
             cs.execute();
 
@@ -46,5 +48,53 @@ public class UserTypesDAO {
         System.out.println("Failed to connect to database! " + e.getMessage());
     }
         return null;
+    }
+
+    public void addUserTypes(UserTypes userTypes) {
+        String sql = "{call USERTYPESMANAGER.INSERTUSERTYPE(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setString(1, userTypes.getName());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUserTypes(UserTypes userTypes) {
+        String sql = "{call USERTYPESMANAGER.DELETEUSERTYPE(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, userTypes.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateUserTypes(UserTypes userTypes) {
+        String sql = "{call USERTYPESMANAGER.UPDATEUSERTYPE(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, userTypes.getId());
+            cs.setString(2, userTypes.getName());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

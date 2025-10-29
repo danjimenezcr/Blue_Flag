@@ -1,6 +1,7 @@
 package dao;
 
 import model.Country;
+import model.Province;
 import oracle.jdbc.OracleTypes;
 import util.DBConnection;
 
@@ -54,5 +55,57 @@ public class CountryDAO {
         }
 
         return null;
+    }
+
+    public void addCountry(Country country) {
+        String sql = "{call COUNTRYMANAGER.INSERTCOUNTRY(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setString(1, country.getName());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteCountry(Country country) {
+        String sql = "{call COUNTRYMANAGER.DELETECOUNTRY(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, country.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCountry(Country country) {
+        String sql = "{call COUNTRYMANAGER.UPDATECOUNTRY(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, country.getId());
+            cs.setString(2, country.getName());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args) {
+
+        System.out.println(new ProductDAO().getTotalProductsRedeemed());
     }
 }

@@ -6,7 +6,7 @@ import model.User;
 import java.util.List;
 
 public class AuthService {
-    private UsersDAO userDao = new UsersDAO();
+    private final UsersDAO userDao = new UsersDAO();
 
     public AuthService() {}
     public User login(String username, String password){

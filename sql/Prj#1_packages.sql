@@ -1349,7 +1349,7 @@ CREATE OR REPLACE PACKAGE BODY ProductManager AS
                 P.ID,
                 P.PHOTOURL,
                 P.description AS product_description,
-                AE.name AS commerce_name,
+                AE.id AS authorizedentityid,
                 SUM(PU.quantity) AS total_canje
             FROM PRODUCT P
                 INNER JOIN PRODUCTXUSER PU ON PU.productid = P.id
@@ -1358,13 +1358,13 @@ CREATE OR REPLACE PACKAGE BODY ProductManager AS
                 P.ID,
                 P.PHOTOURL,
                 P.description,
-                AE.name
+                AE.id
             ORDER BY
                 total_canje DESC;
         RETURN (vcProductRanking);
     EXCEPTION
         WHEN OTHERS THEN
-            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while retrieving Product ranking.');
+            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
     END getProductsRedeemRanking;
 
 /*4.11 Módulo de Consultas para comercios afiliados A,B,C*/
@@ -1387,7 +1387,7 @@ CREATE OR REPLACE PACKAGE BODY ProductManager AS
         RETURN (vcProductsByCommerce);
     EXCEPTION
         WHEN OTHERS THEN
-            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while retrieving Products by Commerce.');
+            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
     END getProductsByCommerce;
 
 /*B) Top 5 de productos más canjeados*/
@@ -1398,20 +1398,20 @@ CREATE OR REPLACE PACKAGE BODY ProductManager AS
     BEGIN
         OPEN vcTopProducts FOR
             SELECT
+                P.ID,
                 P.description AS product_description,
-                AE.name AS commerce_name,
                 SUM(PU.quantity) AS total_redemptions
             FROM product P
-                JOIN productxuser PU ON PU.productid = P.id
-                JOIN AUTORIZEDENTITY AE ON AE.id = P.authorizedentityid
-            GROUP BY P.description, AE.NAME
+                     JOIN productxuser PU ON PU.productid = P.id
+            GROUP BY
+                P.ID,
+                P.description
             ORDER BY total_redemptions DESC
-            FETCH FIRST 5 ROWS ONLY;
+                FETCH FIRST 5 ROWS ONLY;
         RETURN (vcTopProducts);
     EXCEPTION
         WHEN OTHERS THEN
-            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while retrieving Top 5 Products.');
-
+            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
 
     END getTop5Products;
 
@@ -1436,7 +1436,7 @@ c) Total de productos canjeados por mes y por año.*/
         RETURN (vcProductsRedeemed);
     EXCEPTION
         WHEN OTHERS THEN
-            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred while retrieving total redemptions by month and year.');
+            RAISE_APPLICATION_ERROR(-20002, 'Unexpected error occurred.');
     END getTotalProductsRedeemed;
 END ProductManager;
 
@@ -1455,7 +1455,6 @@ CREATE OR REPLACE PACKAGE BODY ProductxUserManager AS
         vSpentPoints NUMBER := 0;
         eNotEnoughPoints exception;
     BEGIN
-        -- 1) Calcular puntos totales disponibles del usuario
         SELECT NVL(SUM(TO_NUMBER(uc.kilograms) * pc.pointsPerKg), 0)
         INTO vTotalUserPoints
         FROM UserXCollectionCenter uc
@@ -1868,7 +1867,11 @@ CREATE OR REPLACE PACKAGE BODY adminAffiliatedBusiness AS
         ae.manager,
         ae.contact,
         ae.DISTRICTID,
-        ab.BusinessTypeId
+        ab.BusinessTypeId,
+        ab.CREATEDBY,
+        ab.CREATEDDATETIME,
+        ab.UPDATEDBY,
+        ab.UPDATEDDATETIME
       FROM AutorizedEntity ae
       JOIN AffiliatedBusiness ab
         ON ab.AutorizedEntityId = ae.id

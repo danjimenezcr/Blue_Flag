@@ -35,7 +35,7 @@ public class AutorizedEntityDAO {
 
     }
 
-    public List<AutorizedEntity> getAutorizedEntity(Integer id, String name, String manager, Intege districtId) {
+    public List<AutorizedEntity> getAutorizedEntity(Integer id, String name, String manager, Integer districtId) {
         String sql = "{ ? = call adminAutorizedEntity.getAutorizedEntity(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -44,12 +44,19 @@ public class AutorizedEntityDAO {
             // Out Parameter
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
-            //Parameters Input
-            cs.setInt(2, id);
-            cs.setString(3, name);
-            cs.setString(4, manager);
-            cs.setInt(5, districtId);
-            System.out.println(cs.toString());
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
+
+            if(name != null) cs.setString(3, name);
+            else cs.setNull(3, OracleTypes.VARCHAR);
+
+            if(manager != null) cs.setString(4, manager);
+            else cs.setNull(4, OracleTypes.VARCHAR);
+
+            if(districtId != null) cs.setInt(5, districtId);
+            else cs.setNull(4, OracleTypes.INTEGER);
+
+            System.out.println(cs);
 
             cs.execute();
 
@@ -96,5 +103,25 @@ public void deleteAutorizedEntity(AutorizedEntity autorizedEntity){
 
     }
 
+public void updateAutorizedEntity(AutorizedEntity autorizedEntity){
+        String sql = "{call ADMINAUTORIZEDENTITY.UPDATEAUTORIZEDENTITY(?, ?, ?, ?, ?, ?, ?, ?)}";
 
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, autorizedEntity.getId());
+            cs.setString(2, autorizedEntity.getName());
+            cs.setTimestamp(3, autorizedEntity.getOpenHour());
+            cs.setTimestamp(4, autorizedEntity.getCloseHour());
+            cs.setString(5, autorizedEntity.getManager());
+            cs.setString(6, autorizedEntity.getContact());
+            cs.setInt(7, autorizedEntity.getDistrict().getId());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
 }

@@ -2,7 +2,7 @@ package controller;
 
 import model.User;
 import service.AuthService;
-import view.AdminWindow;
+import view.MainWindow;
 import view.LoginWindow;
 
 public class LoginController {
@@ -13,10 +13,10 @@ public class LoginController {
 
         if(user != null){
             loginWindow.dispose();
-            new AdminWindow(user).setVisible(true);
+            new MainWindow(user).setVisible(true);
         }
         loginWindow.showError("Username or password are incorrect!!!");
         
-    };
+    }
 
 }

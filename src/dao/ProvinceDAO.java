@@ -1,6 +1,7 @@
 package dao;
 
 import model.Country;
+import model.District;
 import model.Province;
 import oracle.jdbc.OracleTypes;
 import util.DBConnection;
@@ -21,7 +22,7 @@ public class ProvinceDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parameters
-            if(provinceId != null)  cs.setInt(2, provinceId);
+            if (provinceId != null) cs.setInt(2, provinceId);
             else cs.setNull(2, OracleTypes.INTEGER);
 
             if(name != null) cs.setString(3, name);
@@ -60,5 +61,59 @@ public class ProvinceDAO {
         }
 
         return null;
+    }
+
+    public void addProvince(Province province) {
+        String sql = "{call PROVINCEMANAGER.INSERTPROVINCE(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setString(1, province.getName());
+            cs.setInt(2, province.getCountry().getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteProvince(Province province) {
+        String sql = "{call DISTRICTMANAGER.DELETEPROVINCE(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, province.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateProvince(Province province) {
+        String sql = "{call CITYMANAGER.UPDATEPROVINCE(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, province.getId());
+            cs.setString(2, province.getName());
+            cs.setInt(3, province.getCountry().getId());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    public static void main(String[] args) {
+
+        System.out.println(new ProvinceDAO().getProvinces(0, null, null));
     }
 }

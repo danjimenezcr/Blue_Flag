@@ -39,9 +39,17 @@ CALL USERMANAGER.INSERTUSER('Danny', '02/07/2002', 'danjimenezcr', null, 'Jimene
 
 --Inserts Alexis--
 
-CALL adminAutorizedEntity.insertAutorizedEntity('Municipalidad de Cartago', TO_TIMESTAMP('08:00 AM', 'HH:MI AM'), TO_TIMESTAMP('04:00 PM', 'HH:MI AM'), 'Mario Redondo', '2550-4500', '3');
+CALL adminCollectionCenter.insertCollectionCenter('Municipalidad de Cartago', TO_TIMESTAMP('08:00 AM', 'HH:MI AM'), TO_TIMESTAMP('04:00 PM', 'HH:MI AM'), 'Mario Redondo', '2550-4500', '3', '1', :new_id);
 
-CALL adminAutorizedEntity.insertAutorizedEntity('Recicladora Hernandez Cartin', TO_TIMESTAMP('08:00 AM', 'HH:MI AM'), TO_TIMESTAMP('05:00 PM', 'HH:MI AM'), 'Hernandez Cartin', '7015-3945', '3');
+CALL adminCollectionCenter.insertCollectionCenter('Recicladora Hernandez Cartin', TO_TIMESTAMP('08:00 AM', 'HH:MI AM'), TO_TIMESTAMP('05:00 PM', 'HH:MI AM'), 'Hernandez Cartin', '7015-3945', '3', '1',:new_id);
+
+CALL adminAffiliatedBusiness.insertAffiliatedBusiness('Quantum Lifecycle Partners', TO_TIMESTAMP('08:00 AM', 'HH:MI AM'), TO_TIMESTAMP('05:00 PM', 'HH:MI AM'), 'Gary Diamond', '8895-9594', '3', '2',:new_id);
+
+CALL adminCollectionCenter.insertCollectionCenter('Universidad de Costa Rica', TO_TIMESTAMP('06:00 AM', 'HH:MI AM'), TO_TIMESTAMP('06:00 PM', 'HH:MI AM'), 'Carlos Araya Leandro', '2511-6748', '1', '1',:new_id);
+
+CALL adminAffiliatedBusiness.insertAffiliatedBusiness('Ecolones Paseo Metrópoli', TO_TIMESTAMP('09:00 AM', 'HH:MI AM'), TO_TIMESTAMP('08:00 PM', 'HH:MI AM'), 'Rolando Rodríguez Torres', '2573-0900', '3', '1',:new_id);
+
+CALL adminCollectionCenter.insertCollectionCenter('Tecnologico de Costa Rica de Costa Rica', TO_TIMESTAMP('04:00 AM', 'HH:MI AM'), TO_TIMESTAMP('10:00 PM', 'HH:MI AM'), 'María Estrada Sánchez', '2573 7851', '3', '1',:new_id);
 
 CALL adminMaterialType.insertMaterialType('Plastic');
 CALL adminMaterialType.insertMaterialType('Metal');
@@ -51,8 +59,43 @@ CALL adminMaterialType.insertMaterialType('PaperBoard');
 CALL adminMaterialType.insertMaterialType('aluminum');
 CALL adminMaterialType.insertMaterialType('Organics');
 CALL adminMaterialType.insertMaterialType('Scrap');
+CALL adminMaterialType.insertMaterialType('Glass');
 
 CALL adminCenterType.insertCenterType('Multi-material: accepts all types of materials');
 CALL adminCenterType.insertCenterType('Mono-material: one type of materials');
 CALL adminCenterType.insertCenterType('Electronics: accepts only Electronics, computers, cellphone');
 CALL adminCenterType.insertCenterType('Organics: Food waste or plant pruning (composting)');
+CALL adminCenterType.insertCenterType('Dangerous: Batteries, oils, light bulbs, expired medications');
+
+CALL adminBusinessType.insertBusinessType('collectors: receive materials');
+CALL adminBusinessType.insertBusinessType('Sponsors: support or fund recycling projects');
+CALL adminBusinessType.insertBusinessType('Processors: transform or sell recyclable materials');
+
+CALL adminTMXCenter.insertTMXCenter('1','1');
+CALL adminTMXCenter.insertTMXCenter('1','3');
+CALL adminTMXCenter.insertTMXCenter('1','5');
+CALL adminTMXCenter.insertTMXCenter('1','6');
+CALL adminTMXCenter.insertTMXCenter('1','7');
+
+CALL adminTMXCenter.insertTMXCenter('2','1');
+CALL adminTMXCenter.insertTMXCenter('2','3');
+CALL adminTMXCenter.insertTMXCenter('2','5');
+CALL adminTMXCenter.insertTMXCenter('2','6');
+CALL adminTMXCenter.insertTMXCenter('2','7');
+CALL adminTMXCenter.insertTMXCenter('2','8');
+
+CALL adminTMXCenter.insertTMXCenter('4','1');
+CALL adminTMXCenter.insertTMXCenter('4','3');
+CALL adminTMXCenter.insertTMXCenter('4','5');
+CALL adminTMXCenter.insertTMXCenter('4','6');
+CALL adminTMXCenter.insertTMXCenter('4','7');
+
+CALL adminTMXCenter.insertTMXCenter('5','1');
+CALL adminTMXCenter.insertTMXCenter('5','3');
+CALL adminTMXCenter.insertTMXCenter('5','5');
+CALL adminTMXCenter.insertTMXCenter('5','6');
+CALL adminTMXCenter.insertTMXCenter('5','7');
+
+
+
+

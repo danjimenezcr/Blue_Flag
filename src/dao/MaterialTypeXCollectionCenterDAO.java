@@ -1,6 +1,7 @@
 package dao;
 
 import model.AutorizedEntity;
+import model.CenterType;
 import model.MaterialType;
 import model.MaterialTypeXCollectionCenter;
 import util.DBConnection;
@@ -13,6 +14,24 @@ import oracle.jdbc.OracleTypes;
 
 public class MaterialTypeXCollectionCenterDAO {
 
+    public int addMaterialTypeXCollectionCenter(MaterialTypeXCollectionCenter materialTypeXCollectionCenter) {
+        String sql = "{ call adminTMXCenter.insertTMXCenter(?,?) }";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, materialTypeXCollectionCenter.getAuthorizedEntity().getId());
+            cs.setInt(2, materialTypeXCollectionCenter.getMaterialType().getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
     public List<MaterialTypeXCollectionCenter> getListaMateriales(Integer id, Integer authorizedEntityId, Integer materialTypeId) {
         String sql = "{ ? = call adminTMXCenter.getTMXCenter(?, ?, ?) }";
 
@@ -22,10 +41,14 @@ public class MaterialTypeXCollectionCenterDAO {
             // Out Parameter
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
-            //Parameters Input
-            cs.setInt(1, id);
-            cs.setInt(2, authorizedEntityId);
-            cs.setInt(3, materialTypeId);
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
+
+            if (authorizedEntityId != null) cs.setInt(3, authorizedEntityId);
+            else cs.setNull(3, OracleTypes.INTEGER);
+
+            if (materialTypeId!= null) cs.setInt(4, materialTypeId);
+            else cs.setNull(4, OracleTypes.INTEGER);
 
             cs.execute();
 
@@ -58,4 +81,37 @@ public class MaterialTypeXCollectionCenterDAO {
         return null;
     }
 
+    public void deleteMaterialTypeXCollectionCenter(MaterialTypeXCollectionCenter materialTypeXCollectionCenter){
+        String sql = "{call adminTMXCenter.removeTMXCenter(?)}}";
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, materialTypeXCollectionCenter.getId());
+
+            cs.execute();
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
+    public void updateMaterialTypeXCollectionCenter(MaterialTypeXCollectionCenter materialTypeXCollectionCenter){
+        String sql = "{call adminTMXCenter.removeTMXCenter(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, materialTypeXCollectionCenter.getId());
+            cs.setInt(2, materialTypeXCollectionCenter.getAuthorizedEntity().getId());
+            cs.setInt(3, materialTypeXCollectionCenter.getMaterialType().getId());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
 }

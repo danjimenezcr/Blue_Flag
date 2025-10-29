@@ -1,5 +1,6 @@
 package dao;
 
+import model.IdType;
 import model.Labels;
 import util.DBConnection;
 
@@ -20,11 +21,8 @@ public class LabelDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parámetro
-            if (id == null) {
-                cs.setNull(2, Types.NUMERIC);
-            } else {
-                cs.setInt(2, id);
-            }
+            if(id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
 
             cs.execute();
 
@@ -50,5 +48,53 @@ public class LabelDAO {
         System.out.println("Failed to connect to database! " + e.getMessage());
     }
         return null;
+    }
+
+    public void addLabel(Labels labels) {
+        String sql = "{call LABELSMANAGER.INSERTLABELS(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Input parameters
+            cs.setString(1, labels.getDescription());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteLabel(Labels labels) {
+        String sql = "{call LABELSMANAGER.DELETELABELS(?)}";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, labels.getId());
+
+            cs.execute();
+
+        } catch (Exception e) {
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void updateLabel(Labels labels) {
+        String sql = "{call LABELSMANAGER.UPDATELABELS(?, ?)}";
+
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            cs.setInt(1, labels.getId());
+            cs.setString(2, labels.getDescription());
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
