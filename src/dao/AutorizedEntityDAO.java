@@ -35,7 +35,7 @@ public class AutorizedEntityDAO {
 
     }
 
-    public List<AutorizedEntity> getAutorizedEntity(Integer id, String name, String manager, Integer districtId) {
+    public List<AutorizedEntity> getAutorizedEntity(Integer id, String name, String manager, Intege districtId) {
         String sql = "{ ? = call adminAutorizedEntity.getAutorizedEntity(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {

@@ -1028,7 +1028,8 @@ CREATE OR REPLACE PACKAGE BODY CityManager AS
                 c.createdDateTime,
                 c.updatedBy,
                 c.updatedDateTime,
-                p.name provinceName
+                p.name provinceName,
+                c.PROVINCEID
             FROM
                 City c
                 INNER JOIN Province p ON c.provinceId = p.id
@@ -1124,6 +1125,7 @@ CREATE OR REPLACE PACKAGE BODY ProvinceManager AS
                 p.createdDateTime,
                 p.updatedBy,
                 p.updatedDateTime,
+                p.COUNTRYID,
                 cc.name AS countryName
             FROM
                 Province p
