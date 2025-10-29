@@ -4,7 +4,11 @@
  */
 package view;
 
-import javax.swing.JButton;
+import javax.swing.*;
+import model.Genders;
+import service.GenderService;
+
+import java.util.Vector;
 
 /**
  *
@@ -39,7 +43,7 @@ public class SignUpWindow extends javax.swing.JFrame {
         lastNameInput = new javax.swing.JTextField();
         usernameInput = new javax.swing.JTextField();
         addressInput = new javax.swing.JTextField();
-        usernameInput4 = new javax.swing.JTextField();
+        idNumberInput = new javax.swing.JTextField();
         idTypes = new javax.swing.JComboBox<>();
         idTypes.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
             @Override
@@ -49,8 +53,8 @@ public class SignUpWindow extends javax.swing.JFrame {
                 }};
             }
         });
-        jButton2 = new javax.swing.JButton();
-        idTypes1 = new javax.swing.JComboBox<>();
+        signUpBtn = new javax.swing.JButton();
+        districtInput = new javax.swing.JComboBox<>();
         idTypes.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
@@ -59,7 +63,8 @@ public class SignUpWindow extends javax.swing.JFrame {
                 }};
             }
         });
-        idTypes2 = new javax.swing.JComboBox<>();
+        birthDateInput = new com.toedter.calendar.JDateChooser();
+        gender = new javax.swing.JComboBox<>();
         idTypes.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
@@ -67,26 +72,13 @@ public class SignUpWindow extends javax.swing.JFrame {
                     setVisible(false);
                 }};
             }
+
         });
-        idTypes3 = new javax.swing.JComboBox<>();
-        idTypes.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
-            @Override
-            protected JButton createArrowButton() {
-                return new JButton() {{
-                    setVisible(false);
-                }};
-            }
-        });
-        idTypes4 = new javax.swing.JComboBox<>();
-        idTypes.setUI(new javax.swing.plaf.basic.BasicComboBoxUI() {
-            @Override
-            protected JButton createArrowButton() {
-                return new JButton() {{
-                    setVisible(false);
-                }};
-            }
-        });
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+
+        for (Genders g: new GenderService().getGenders()){
+            gender.addItem(g);
+        }
+        secondLastNameInput = new javax.swing.JTextField();
         leftPanel = new javax.swing.JPanel();
         icon = new javax.swing.JLabel();
         titleCompany = new javax.swing.JLabel();
@@ -109,7 +101,7 @@ public class SignUpWindow extends javax.swing.JFrame {
         rightPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         title.setBackground(new java.awt.Color(0, 51, 102));
-        title.setFont(new java.awt.Font("Helvetica Neue", 0, 36)); // NOI18N
+        title.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         title.setForeground(new java.awt.Color(0, 51, 102));
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         title.setText("Sing Up");
@@ -145,7 +137,7 @@ public class SignUpWindow extends javax.swing.JFrame {
 
         disclaimer.setForeground(new java.awt.Color(0, 0, 0));
         disclaimer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        disclaimer.setText("<html> All rights reserved. Read all <a href = \"https://www.google.com\" style = \"text-decoration: none\" >terms and conditions</a>.");
+        disclaimer.setText("<html> By signing up I've accepted all <a href = \"https://www.google.com\" style = \"text-decoration: none\" >terms and conditions</a>.");
 
         lastNameInput.setBackground(new java.awt.Color(255, 255, 255));
         lastNameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Last Name", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
@@ -174,12 +166,12 @@ public class SignUpWindow extends javax.swing.JFrame {
             }
         });
 
-        usernameInput4.setBackground(new java.awt.Color(255, 255, 255));
-        usernameInput4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ID Number", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
-        usernameInput4.setPreferredSize(new java.awt.Dimension(20, 50));
-        usernameInput4.addActionListener(new java.awt.event.ActionListener() {
+        idNumberInput.setBackground(new java.awt.Color(255, 255, 255));
+        idNumberInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ID Number", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
+        idNumberInput.setPreferredSize(new java.awt.Dimension(20, 50));
+        idNumberInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameInput4ActionPerformed(evt);
+                idNumberInputActionPerformed(evt);
             }
         });
 
@@ -192,52 +184,48 @@ public class SignUpWindow extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(0, 51, 102));
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Sign In");
-        jButton2.setBorder(null);
-        jButton2.setBorderPainted(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-
-        idTypes1.setBackground(new java.awt.Color(255, 255, 255));
-        idTypes1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        idTypes1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Country", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
-        idTypes1.addActionListener(new java.awt.event.ActionListener() {
+        signUpBtn.setBackground(new java.awt.Color(0, 51, 102));
+        signUpBtn.setForeground(new java.awt.Color(255, 255, 255));
+        signUpBtn.setText("Sign In");
+        signUpBtn.setBorder(null);
+        signUpBtn.setBorderPainted(false);
+        signUpBtn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        signUpBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTypes1ActionPerformed(evt);
+                signUpBtnActionPerformed(evt);
             }
         });
 
-        idTypes2.setBackground(new java.awt.Color(255, 255, 255));
-        idTypes2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        idTypes2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Province", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
-        idTypes2.addActionListener(new java.awt.event.ActionListener() {
+        districtInput.setBackground(new java.awt.Color(255, 255, 255));
+        districtInput.setModel(new javax.swing.DefaultComboBoxModel<>(new Vector<>(new LocationController().getDistricts())));
+        districtInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "District", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
+        districtInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTypes2ActionPerformed(evt);
+                districtInputActionPerformed(evt);
             }
         });
 
-        idTypes3.setBackground(new java.awt.Color(255, 255, 255));
-        idTypes3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        idTypes3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "City", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
-        idTypes3.addActionListener(new java.awt.event.ActionListener() {
+        birthDateInput.setBackground(new java.awt.Color(255, 255, 255));
+        birthDateInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Birth Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
+        birthDateInput.setForeground(new java.awt.Color(0, 0, 0));
+
+        gender.setBackground(new java.awt.Color(255, 255, 255));
+        gender.setModel(new DefaultComboBoxModel<>(new Vector<> (new GenderService().getGenders())));
+        gender.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gender", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
+        gender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTypes3ActionPerformed(evt);
+                genderActionPerformed(evt);
             }
         });
 
-        idTypes4.setBackground(new java.awt.Color(255, 255, 255));
-        idTypes4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        idTypes4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "District", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
-        idTypes4.addActionListener(new java.awt.event.ActionListener() {
+        secondLastNameInput.setBackground(new java.awt.Color(255, 255, 255));
+        secondLastNameInput.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Second Last Name", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
+        secondLastNameInput.setPreferredSize(new java.awt.Dimension(20, 50));
+        secondLastNameInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                idTypes4ActionPerformed(evt);
+                secondLastNameInputActionPerformed(evt);
             }
         });
-
-        jDateChooser1.setBackground(new java.awt.Color(255, 255, 255));
-        jDateChooser1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Birth Date", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
-        jDateChooser1.setForeground(new java.awt.Color(0, 0, 0));
 
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
@@ -257,28 +245,25 @@ public class SignUpWindow extends javax.swing.JFrame {
                                 .addGroup(rightPanelLayout.createSequentialGroup()
                                     .addComponent(idTypes, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(usernameInput4, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(idNumberInput, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, rightPanelLayout.createSequentialGroup()
-                                        .addComponent(idTypes1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(idTypes2, 0, 180, Short.MAX_VALUE))
+                                        .addComponent(gender, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(birthDateInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addComponent(passwordInput)
                                     .addComponent(addressInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, rightPanelLayout.createSequentialGroup()
-                                        .addComponent(idTypes3, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(idTypes4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(rightPanelLayout.createSequentialGroup()
-                                        .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(usernameInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(firstNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(firstNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
-                                        .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(lastNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)))))
+                                        .addComponent(lastNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(districtInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(rightPanelLayout.createSequentialGroup()
+                                        .addComponent(secondLastNameInput, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
-                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(signUpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(19, 19, 19))))
@@ -293,32 +278,33 @@ public class SignUpWindow extends javax.swing.JFrame {
                     .addComponent(firstNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lastNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addressInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idTypes1, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(idTypes2, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
+                    .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(secondLastNameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idTypes3, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(idTypes4, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE))
-                .addGap(9, 9, 9)
+                .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addComponent(addressInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(districtInput, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                        .addGap(9, 9, 9)
+                        .addComponent(gender, javax.swing.GroupLayout.DEFAULT_SIZE, 52, Short.MAX_VALUE))
+                    .addGroup(rightPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(birthDateInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(idTypes, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-                    .addComponent(usernameInput4, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idNumberInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(signUpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(disclaimer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addGap(27, 27, 27))
         );
 
         splitter.setRightComponent(rightPanel);
@@ -397,29 +383,17 @@ public class SignUpWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_addressInputActionPerformed
 
-    private void usernameInput4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameInput4ActionPerformed
+    private void idNumberInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idNumberInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_usernameInput4ActionPerformed
+    }//GEN-LAST:event_idNumberInputActionPerformed
 
     private void idTypesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTypesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idTypesActionPerformed
 
-    private void idTypes1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTypes1ActionPerformed
+    private void districtInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_districtInputActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_idTypes1ActionPerformed
-
-    private void idTypes2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTypes2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTypes2ActionPerformed
-
-    private void idTypes3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTypes3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTypes3ActionPerformed
-
-    private void idTypes4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTypes4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_idTypes4ActionPerformed
+    }//GEN-LAST:event_districtInputActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         // TODO add your handling code here:
@@ -427,6 +401,42 @@ public class SignUpWindow extends javax.swing.JFrame {
         new LoginWindow().setVisible(true);
     }//GEN-LAST:event_cancelBtnActionPerformed
 
+    private void genderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_genderActionPerformed
+
+    private void secondLastNameInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secondLastNameInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_secondLastNameInputActionPerformed
+
+    private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_signUpBtnActionPerformed
+
+    public void showError(String error){
+        JOptionPane.showMessageDialog(this, error);
+    }
+
+    public void showMessage(String message){
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    public void clearFields() {
+        firstNameInput.setText("");
+        lastNameInput.setText("");
+        usernameInput.setText("");
+        passwordInput.setText("");
+        addressInput.setText("");
+        idNumberInput.setText("");
+        secondLastNameInput.setText("");
+
+        districtInput.setSelectedIndex(0);
+        gender.setSelectedIndex(0);
+        idTypes.setSelectedIndex(0);
+
+        birthDateInput.setDate(null);
+    }
     /**
      * @param args the command line arguments
      */
@@ -434,25 +444,24 @@ public class SignUpWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressInput;
+    private com.toedter.calendar.JDateChooser birthDateInput;
     private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel disclaimer;
+    private javax.swing.JComboBox<String> districtInput;
     private javax.swing.JTextField firstNameInput;
+    private javax.swing.JComboBox<Genders> gender;
     private javax.swing.JLabel icon;
+    private javax.swing.JTextField idNumberInput;
     private javax.swing.JComboBox<String> idTypes;
-    private javax.swing.JComboBox<String> idTypes1;
-    private javax.swing.JComboBox<String> idTypes2;
-    private javax.swing.JComboBox<String> idTypes3;
-    private javax.swing.JComboBox<String> idTypes4;
-    private javax.swing.JButton jButton2;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JTextField lastNameInput;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JPasswordField passwordInput;
     private javax.swing.JPanel rightPanel;
+    private javax.swing.JTextField secondLastNameInput;
+    private javax.swing.JButton signUpBtn;
     private javax.swing.JSplitPane splitter;
     private javax.swing.JLabel title;
     private javax.swing.JLabel titleCompany;
     private javax.swing.JTextField usernameInput;
-    private javax.swing.JTextField usernameInput4;
     // End of variables declaration//GEN-END:variables
 }

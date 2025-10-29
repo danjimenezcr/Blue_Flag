@@ -72,4 +72,17 @@ public class BusinessType {
     public void setUpdatedDateTime(Date updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
     }
+
+    @Override
+    public String toString() {
+        return "BusinessType{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
+
 }

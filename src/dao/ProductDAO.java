@@ -55,10 +55,6 @@ public class ProductDAO {
 
         return null;
     }
-    public static void main(String[] args) {
-
-        System.out.println(new ProductDAO().getProducts(0, null, null));
-    }
 
     public void addProduct(Product product) {
         String sql = "{call PRODUCTMANAGER.INSERTPRODUCT(?, ?, ?, ?)}";

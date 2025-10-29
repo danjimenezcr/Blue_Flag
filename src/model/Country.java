@@ -71,4 +71,9 @@ public class Country {
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

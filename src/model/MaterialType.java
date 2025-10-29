@@ -70,4 +70,17 @@ public class MaterialType {
     public void setUpdatedDateTime(Date updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
     }
+
+    @Override
+    public String toString() {
+        return "MaterialType{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
+
 }

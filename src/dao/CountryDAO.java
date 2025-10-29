@@ -30,7 +30,7 @@ public class CountryDAO {
             cs.execute();
 
             try (ResultSet rs = (ResultSet) cs.getObject(1)) {
-                System.out.println("getCountries");
+
 
                 List<Country> list = new ArrayList<>();
                 while (rs.next()) {
@@ -46,7 +46,7 @@ public class CountryDAO {
                 }
                 return list;
             } catch (Exception e){
-                System.out.println("Error getting the result for cities: " + e.getMessage());
+                System.out.println("Error getting the result for countries: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (SQLException e){

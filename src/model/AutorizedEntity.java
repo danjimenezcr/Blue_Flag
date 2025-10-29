@@ -82,4 +82,18 @@ public class AutorizedEntity {
     public void setDistrict(District district) {
         this.district = district;
     }
+
+    @Override
+    public String toString() {
+        return "AutorizedEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", openHour=" + openHour +
+                ", closeHour=" + closeHour +
+                ", manager='" + manager + '\'' +
+                ", contact='" + contact + '\'' +
+                ", district=" + (district != null ? district.toString() : "null") +
+                '}';
+    }
+
 }

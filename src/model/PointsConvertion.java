@@ -112,4 +112,21 @@ public class PointsConvertion {
     public void setMaterialTypeId(MaterialType materialType) {
         this.materialType = materialType;
     }
+
+    @Override
+    public String toString() {
+        return "PointsConvertion{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pointsPerKg=" + pointsPerKg +
+                ", valueInCurrency=" + valueInCurrency +
+                ", currency=" + (currency != null ? currency.toString() : "null") +
+                ", materialType=" + (materialType != null ? materialType.toString() : "null") +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
+
 }

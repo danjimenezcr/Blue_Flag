@@ -132,4 +132,23 @@ public class CollectionCenter {
     public void setUpdatedDateTime(Date updatedDateTime) {
         this.updatedDateTime = updatedDateTime;
     }
+
+    @Override
+    public String toString() {
+        return "CollectionCenter{" +
+                "autorizedEntityId=" + autorizedEntityId +
+                ", name='" + name + '\'' +
+                ", openHour=" + openHour +
+                ", closeHour=" + closeHour +
+                ", manager='" + manager + '\'' +
+                ", contact='" + contact + '\'' +
+                ", district=" + (district != null ? district.toString() : "null") +
+                ", centerType=" + (centerType != null ? centerType.toString() : "null") +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
+
 }

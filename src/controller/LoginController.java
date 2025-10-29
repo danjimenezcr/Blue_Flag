@@ -14,9 +14,9 @@ public class LoginController {
         if(user != null){
             loginWindow.dispose();
             new MainWindow(user).setVisible(true);
+        } else{
+            loginWindow.showError("Username or password are incorrect!!!");
         }
-        loginWindow.showError("Username or password are incorrect!!!");
-        
     }
 
 }

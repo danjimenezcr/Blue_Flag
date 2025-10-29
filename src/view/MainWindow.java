@@ -23,13 +23,11 @@ public class MainWindow extends javax.swing.JFrame {
     private final User user;
     private final ImageIcon clientImage;
     private ImageIcon icon;
-    private MainController mainController;
     
     public MainWindow(User user) {
-        initComponents();
         this.user = user;
-        
-        mainController = new MainController(this);
+        initComponents();
+
         this.clientImage = new ImageIcon(this.user.getPhotoUrl());
         if (!this.user.getUserType().getName().equals("admin")){
             Index.remove(this.reportingTab);
@@ -1180,7 +1178,6 @@ public class MainWindow extends javax.swing.JFrame {
                 .addGroup(locationManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
-                .addGap(18, 18, 18)
                 .addGroup(locationManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(locationManagerLayout.createSequentialGroup()
                         .addGroup(locationManagerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)

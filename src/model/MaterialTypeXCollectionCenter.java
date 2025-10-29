@@ -81,4 +81,18 @@ public class MaterialTypeXCollectionCenter {
     public void setMaterialType(MaterialType materialType) {
         this.materialType = materialType;
     }
+
+    @Override
+    public String toString() {
+        return "MaterialTypeXCollectionCenter{" +
+                "id=" + id +
+                ", authorizedEntity=" + (authorizedEntity != null ? authorizedEntity.toString() : "null") +
+                ", materialType=" + (materialType != null ? materialType.toString() : "null") +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
+
 }

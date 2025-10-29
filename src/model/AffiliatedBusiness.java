@@ -135,5 +135,24 @@ public class AffiliatedBusiness {
     public void setUpdatedDateTime(Date updatedDateTime) { 
         this.updatedDateTime = updatedDateTime; 
     }
+
+    @Override
+    public String toString() {
+        return "AffiliatedBusiness{" +
+                "autorizedEntityId=" + autorizedEntityId +
+                ", name='" + name + '\'' +
+                ", openHour=" + openHour +
+                ", closeHour=" + closeHour +
+                ", manager='" + manager + '\'' +
+                ", contact='" + contact + '\'' +
+                ", district=" + (district != null ? district.toString() : "null") +
+                ", businessType=" + (businessType != null ? businessType.toString() : "null") +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
+
 }
 

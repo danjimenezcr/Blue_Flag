@@ -79,4 +79,18 @@ public class Currency {
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
+
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "id=" + id +
+                ", code='" + code + '\'' +
+                ", symbol='" + symbol + '\'' +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDateTime=" + createdDateTime +
+                ", updatedBy='" + updatedBy + '\'' +
+                ", updatedDateTime=" + updatedDateTime +
+                '}';
+    }
+
 }

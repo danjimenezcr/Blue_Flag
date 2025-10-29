@@ -60,7 +60,7 @@ public class LoginWindow extends javax.swing.JFrame {
         rightPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         title.setBackground(new java.awt.Color(0, 51, 102));
-        title.setFont(new java.awt.Font("Helvetica Neue", 0, 36)); // NOI18N
+        title.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         title.setForeground(new java.awt.Color(0, 51, 102));
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         title.setText("Login");
@@ -133,7 +133,7 @@ public class LoginWindow extends javax.swing.JFrame {
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightPanelLayout.createSequentialGroup()
-                .addContainerGap(77, Short.MAX_VALUE)
+                .addContainerGap(76, Short.MAX_VALUE)
                 .addComponent(title)
                 .addGap(76, 76, 76)
                 .addComponent(usernameInput, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)

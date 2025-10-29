@@ -82,6 +82,38 @@ public class UsersDAO {
         }
         return null;
     }
+
+    public boolean userExits(Integer userId, String username) {
+        String sql = "{ ? = call USERMANAGER.GETUSERS(?, ?, null, null, null, null, null) }";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            CallableStatement cs = conn.prepareCall(sql);
+
+            // Out Parameter
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            //Parameters Input
+            if (userId != null) cs.setInt(2, userId);
+            else cs.setNull(2, OracleTypes.INTEGER);
+            if (username != null) cs.setString(3, username);
+            else cs.setNull(3, OracleTypes.VARCHAR);
+
+            cs.execute();
+
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+
+                if(rs.next()) {
+                    return true;
+                }
+                return false;
+            } catch (Exception e){
+                System.out.println("Error getting users: " + e.getMessage());
+            }
+        } catch (SQLException e){
+            System.out.println("Failed to connect to database! " + e.getMessage());
+        }
+        return false;
+    }
     
     public void addUser(User user){
         String sql = "{call USERMANAGER.INSERTUSER(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
@@ -121,7 +153,7 @@ public class UsersDAO {
             cs.execute();
 
         } catch (Exception e){
-            System.out.println("Failed to connect to database: " + e.getMessage());
+            System.out.println("Failed while inserting user: " + e.getMessage());
             e.printStackTrace();
         }
     }
@@ -137,7 +169,7 @@ public class UsersDAO {
             cs.execute();
 
         } catch (Exception e){
-            System.out.println("Failed to connect to database: " + e.getMessage());
+            System.out.println("Failed while inserting user: " + e.getMessage());
             e.printStackTrace();
         }
 
@@ -160,13 +192,9 @@ public class UsersDAO {
             cs.execute();
 
         } catch (Exception e){
-            System.out.println("Failed to connect to database: " + e.getMessage());
+            System.out.println("Failed while inserting user: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new UsersDAO().getUsers(0, null, null, null, null, null, null));
     }
 
 }
