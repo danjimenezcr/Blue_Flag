@@ -21,15 +21,14 @@ public class CityDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // Input Parameters
-            cs.setInt(2, cityId);
+            if (cityId != null) cs.setInt(2, cityId);
+            else cs.setNull(2, OracleTypes.INTEGER);
             if (name != null) cs.setString(3, name);
             else cs.setNull(3, OracleTypes.VARCHAR);
             if (provinceId != null) cs.setInt(4, provinceId);
             else cs.setNull(4, OracleTypes.INTEGER);
-
             cs.execute();
             try (ResultSet rs = (ResultSet) cs.getObject(1)) {
-
                 List<City> list = new ArrayList<>();
                 while (rs.next()) {
                     Province province = new ProvinceDAO().getProvinces(rs.getInt("PROVINCEID"), null, null).get(0);
@@ -46,7 +45,7 @@ public class CityDAO {
             }
 
             } catch (Exception e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error getting the result for cities: " + e.getMessage());
             }
         } catch (SQLException e){
             System.out.println("Failed to connect to database! " + e.getMessage());

@@ -42,7 +42,7 @@ public class UserTypesDAO {
            }
 
         } catch (Exception e){
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error getting user types: " + e.getMessage());
         }
     } catch (SQLException e){
         System.out.println("Failed to connect to database! " + e.getMessage());

@@ -52,7 +52,7 @@ public class ProvinceDAO {
                 }
                 return list;
             } catch (Exception e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error getting the result for province: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (SQLException e){
@@ -111,9 +111,5 @@ public class ProvinceDAO {
             System.out.println("Failed to connect to database: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-    public static void main(String[] args) {
-
-        System.out.println(new ProvinceDAO().getProvinces(0, null, null));
     }
 }

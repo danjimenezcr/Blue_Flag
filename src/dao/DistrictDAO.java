@@ -50,7 +50,7 @@ public class DistrictDAO {
                 }
 
             } catch (Exception e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error getting the result for districts: " + e.getMessage());
             }
         } catch (SQLException e){
             System.out.println("Failed to connect to database! " + e.getMessage());

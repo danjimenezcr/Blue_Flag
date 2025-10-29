@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
 
+import javax.swing.table.DefaultTableModel;
+
 
 public class MaterialTypeXCollectionCenterDAO {
 
@@ -115,9 +117,11 @@ public class MaterialTypeXCollectionCenterDAO {
         }
     }
 
-    public List<MaterialTypeXCollectionCenter> getListaMateriales(String id) {
+    public DefaultTableModel getListaMateriales(Integer id) {
         String sql = "{ ? = call adminTMXCenter.getListaMateriales(?) }";
+        DefaultTableModel model = new DefaultTableModel();
 
+        model.setColumnIdentifiers(new String[]{"Collection Center", "Year", "Month", "Total Material Type", "Total Kilograms"});
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
 
@@ -125,7 +129,8 @@ public class MaterialTypeXCollectionCenterDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            if (id != null)  cs.setInt(2, id);
+            else cs.setNull(2, OracleTypes.INTEGER);
             System.out.println(cs.toString());
 
             cs.execute();
@@ -134,15 +139,16 @@ public class MaterialTypeXCollectionCenterDAO {
 
                 List<MaterialTypeXCollectionCenter> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add( new MaterialTypeXCollectionCenter(rs.getInt("CollectionCenter"),
-                                    rs.getInt("year"),
-                                    rs.getInt("month"),
-                                    rs.getInt("total_tipo_material"),
-                                    rs.getInt("total_kilograms")
-                            )
-                    );
-                    return list;
+                    Object[] row = {
+                            rs.getInt("CollectionCenter"),
+                            rs.getInt("year"),
+                            rs.getInt("month"),
+                            rs.getInt("total_tipo_material"),
+                            rs.getInt("total_kilograms")
+                    };
+                    model.addRow(row);
                 }
+                return model;
 
             } catch (Exception e){
                 System.out.println("Error: " + e.getMessage());

@@ -46,7 +46,7 @@ public class CountryDAO {
                 }
                 return list;
             } catch (Exception e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error getting the result for cities: " + e.getMessage());
                 e.printStackTrace();
             }
         } catch (SQLException e){
@@ -103,9 +103,5 @@ public class CountryDAO {
             System.out.println("Failed to connect to database: " + e.getMessage());
             e.printStackTrace();
         }
-    }
-    public static void main(String[] args) {
-
-        System.out.println(new ProductDAO().getTotalProductsRedeemed());
     }
 }

@@ -12,7 +12,7 @@ import oracle.jdbc.OracleTypes;
 public class GenderDAO {
 
     public List<Genders> getGenders(Integer id) {
-        String sql = "{ call ? := gendersManager.getGenders(?) }";
+        String sql = "{ ? = call gendersManager.getGenders(?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -42,7 +42,7 @@ public class GenderDAO {
            }
 
         } catch (Exception e){
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error getting genders: " + e.getMessage());
         }
     } catch (SQLException e){
         System.out.println("Failed to connect to database! " + e.getMessage());

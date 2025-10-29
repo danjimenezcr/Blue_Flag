@@ -44,7 +44,7 @@ public class UsersDAO {
 
                 List<User> list = new ArrayList<>();
                 while (rs.next()) {
-                    District district = new DistrictDAO().getDistricts(rs.getInt("districtId"), null, null).get(0);
+                    District district = new DistrictDAO().getDistricts(rs.getInt("district"), null, null).get(0);
                     Genders gender = new GenderDAO().getGenders(rs.getInt("genderId")).get(0);
                     IdType idtype = new IdTypeDAO().getIdTypes(rs.getInt("idTypeId")).get(0);
                     UserTypes usertype = new UserTypesDAO().getUserTypes(rs.getInt("userTypeId")).get(0);
@@ -75,7 +75,7 @@ public class UsersDAO {
                 }
 
             } catch (Exception e){
-                System.out.println("Error: " + e.getMessage());
+                System.out.println("Error getting users: " + e.getMessage());
             }
         } catch (SQLException e){
             System.out.println("Failed to connect to database! " + e.getMessage());
@@ -166,7 +166,7 @@ public class UsersDAO {
     }
 
     public static void main(String[] args) {
-        System.out.println(new DistrictDAO().getDistricts(0, null,  null));
+        System.out.println(new UsersDAO().getUsers(0, null, null, null, null, null, null));
     }
 
 }
