@@ -1,3 +1,11 @@
+package dao;
+
+import dao.CollectionCenterDAO;
+import dao.PointsConvertionDAO;
+import dao.UsersDAO;
+import model.CollectionCenter;
+import model.PointsConvertion;
+import model.User;
 import model.UserXCollectionCenter;
 import util.DBConnection;
 
@@ -9,7 +17,7 @@ import oracle.jdbc.OracleTypes;
 
 public class UserXCollectionCenterDAO {
 
-    public List<UserXCollectionCenter> getTMXCenter(String id, String Userid, String CollectionCenter, String PointsConvertionKey) {
+    public List<UserXCollectionCenter> getTMXCenter(Integer id, String Userid, String CollectionCenter, String PointsConvertionKey) {
         String sql = "{ ? = call adminUserXCollectionCenter.getUserXCollectionCenter(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -19,7 +27,7 @@ public class UserXCollectionCenterDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, Userid);
             cs.setString(4, CollectionCenter);
             cs.setString(5, PointsConvertionKey);
@@ -31,19 +39,23 @@ public class UserXCollectionCenterDAO {
 
                 List<UserXCollectionCenter> list = new ArrayList<>();
                 while (rs.next()) {
+                    User user = new UsersDAO().getUsers(rs.getInt("userId"), null, null, null,null, null, null).get(0);
+                    CollectionCenter collectionCenter = new CollectionCenterDAO().getCollectionCenter(rs.getInt("collectionCenterId"), null, null, null).get(0);
+                    PointsConvertion pointsConvertion = new PointsConvertionDAO().getPointsConvertion(rs.getInt("pointsConvertionId"), null, null, null).get(0);
+
                     list.add( new UserXCollectionCenter(rs.getInt("id"),
-                                    rs.getString("User"),
-                                    rs.getString("createdBy"),
-                                    rs.getDate("createdDateTime"),
-                                    rs.getString("updatedBy"),
-                                    rs.getDate("updatedDateTime"),
-                                    rs.getString("CollectionCenter"),
-                                    rs.getInt("Points"),
+                                    user,
+                                    rs.getString("CREATEDBY"),
+                                    rs.getDate("CREATEDDATETIME"),
+                                    rs.getString("UPDATEDBY"),
+                                    rs.getDate("UPDATEDDATETIME"),
+                                    collectionCenter,
+                                    pointsConvertion,
                                     rs.getInt("kilograms")
-                            )
-                    );
-                    return list;
+                            ));
+
                 }
+                return list;
 
             } catch (Exception e){
                 System.out.println("Error: " + e.getMessage());

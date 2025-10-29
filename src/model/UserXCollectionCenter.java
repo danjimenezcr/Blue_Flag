@@ -5,28 +5,28 @@ import java.util.Date; // if needed
 
 public class UserXCollectionCenter {
     private int id;
-    private int userId;
+    private User user;
     private String createdBy;
     private Date createdDateTime;
     private String updatedBy;
     private Date updatedDateTime;
-    private int collectionCenter;
-    private int pointsConvertionKey;
-    private String kilograms;
+    private CollectionCenter collectionCenter;
+    private PointsConvertion pointsConvertion;
+    private int kilograms;
 
     
     public UserXCollectionCenter() {}
 
-    public UserXCollectionCenter(int id, int userId, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime, int collectionCenter, int pointsConvertionKey, String kilograms) 
+    public UserXCollectionCenter(int id, User user, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime, CollectionCenter collectionCenter, PointsConvertion pointsConvertion, int kilograms)
     {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.createdBy = createdBy;
         this.createdDateTime = createdDateTime;
         this.updatedBy = updatedBy;
         this.updatedDateTime = updatedDateTime;
         this.collectionCenter = collectionCenter;
-        this.pointsConvertionKey = pointsConvertionKey;
+        this.pointsConvertion = pointsConvertion;
         this.kilograms = kilograms;
     }
 
@@ -40,12 +40,12 @@ public class UserXCollectionCenter {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUserId() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(User user) {
+        this.user = user;
     }
 
     public String getCreatedBy() {
@@ -80,27 +80,27 @@ public class UserXCollectionCenter {
         this.updatedDateTime = updatedDateTime;
     }
 
-    public int getCollectionCenter() {
+    public CollectionCenter getCollectionCenter() {
         return collectionCenter;
     }
 
-    public void setCollectionCenter(int collectionCenter) {
+    public void setCollectionCenter(CollectionCenter collectionCenter) {
         this.collectionCenter = collectionCenter;
     }
 
-    public int getPointsConvertionKey() {
-        return pointsConvertionKey;
+    public PointsConvertion getPointsConvertion() {
+        return pointsConvertion;
     }
 
-    public void setPointsConvertionKey(int pointsConvertionKey) {
-        this.pointsConvertionKey = pointsConvertionKey;
+    public void setPointsConvertion(PointsConvertion pointsConvertion) {
+        this.pointsConvertion = pointsConvertion;
     }
 
-    public String getKilograms() {
+    public int getKilograms() {
         return kilograms;
     }
 
-    public void setKilograms(String kilograms) {
+    public void setKilograms(int kilograms) {
         this.kilograms = kilograms;
     }
 }

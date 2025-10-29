@@ -1,29 +1,29 @@
 package model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class AutorizedEntity {
 
     private int id;
     private String name;
-    private String openHour;
-    private String closeHour;
+    private Timestamp openHour;
+    private Timestamp closeHour;
     private String manager;
     private String contact;
-    private int districtId;
+    private District district;
 
     public AutorizedEntity() {
     }
 
-    public AutorizedEntity(int id, String name, String openHour, String closeHour,
-                           String manager, String contact, int districtId) {
+    public AutorizedEntity(int id, String name, Timestamp openHour, Timestamp closeHour,
+                           String manager, String contact, District district) {
         this.id = id;
         this.name = name;
         this.openHour = openHour;
         this.closeHour = closeHour;
         this.manager = manager;
         this.contact = contact;
-        this.districtId = districtId;
+        this.district = district;
     }
 
     // Getters y Setters
@@ -43,19 +43,19 @@ public class AutorizedEntity {
         this.name = name;
     }
 
-    public String getOpenHour() {
+    public Timestamp getOpenHour() {
         return openHour;
     }
 
-    public void setOpenHour(String openHour) {
+    public void setOpenHour(Timestamp openHour) {
         this.openHour = openHour;
     }
 
-    public String getCloseHour() {
+    public Timestamp getCloseHour() {
         return closeHour;
     }
 
-    public void setCloseHour(String closeHour) {
+    public void setCloseHour(Timestamp closeHour) {
         this.closeHour = closeHour;
     }
 
@@ -75,11 +75,11 @@ public class AutorizedEntity {
         this.contact = contact;
     }
 
-    public int getDistrictId() {
-        return districtId;
+    public District getDistrict() {
+        return district;
     }
 
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId;
+    public void setDistrict(District district) {
+        this.district = district;
     }
 }

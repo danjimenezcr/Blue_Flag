@@ -310,7 +310,7 @@ d) Top 5 de los usuarios con mayores puntajes a nivel general*/
                         SUM(UC.kilograms * PC.pointsPerKg) AS total_points
                     FROM USERS U
                         JOIN userxcollectioncenter UC ON UC.userid = U.id
-                        JOIN pointsconvertion PC ON PC.id = UC.pointsConvertionKey
+                        JOIN pointsconvertion PC ON PC.id = UC.pointsConvertion
                     GROUP BY U.FIRSTNAME, U.LASTNAME, u.USERNAME
                     ORDER BY total_points DESC
                     FETCH FIRST 5 ROWS ONLY;
@@ -1441,7 +1441,7 @@ CREATE OR REPLACE PACKAGE BODY ProductxUserManager AS
         SELECT NVL(SUM(TO_NUMBER(uc.kilograms) * pc.pointsPerKg), 0)
         INTO vTotalUserPoints
         FROM UserXCollectionCenter uc
-        JOIN PointsConvertion pc ON pc.id = uc.pointsConvertionKey
+        JOIN PointsConvertion pc ON pc.id = uc.pointsConvertion
         WHERE uc.userId = pUserId;
 
         -- 1) Calcular puntos gastados por el  usuario

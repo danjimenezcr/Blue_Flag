@@ -1,4 +1,8 @@
+package dao;
+
+import model.CenterType;
 import model.CollectionCenter;
+import model.District;
 import util.DBConnection;
 
 import java.sql.*;
@@ -9,7 +13,7 @@ import oracle.jdbc.OracleTypes;
 
 public class CollectionCenterDAO {
 
-    public List<CollectionCenter> getCollectionCenter(String id, String name, String CenterTypeId, String districtId) {
+    public List<CollectionCenter> getCollectionCenter(Integer id, String name, Integer CenterTypeId, Integer districtId) {
         String sql = "{ ? = call adminCollectionCenter.getCollectionCenter(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -19,11 +23,10 @@ public class CollectionCenterDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, name);
-            cs.setString(4, CenterTypeId);
-            cs.setString(5, districtId);
-            System.out.println(cs.toString());
+            cs.setInt(4, CenterTypeId);
+            cs.setInt(5, districtId);
 
             cs.execute();
 
@@ -31,14 +34,21 @@ public class CollectionCenterDAO {
 
                 List<CollectionCenter> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add( new CollectionCenter(rs.getInt("id"),
+                    CenterType centerType = new CenterTypeDAO().getCenterType(rs.getInt("CenterTypeId"), null).get(0);
+                    District district = new DistrictDAO().getDistricts(rs.getInt("DISTRICTID"), null, null).get(0);
+                    list.add( new CollectionCenter(
+                                    rs.getInt("id"),
                                     rs.getString("name"),
                                     rs.getString("OPENHOUR"),
                                     rs.getString("CLOSEHOUR"),
                                     rs.getString("MANAGER"),
                                     rs.getString("CONTACT"),
-                                    rs.getString("districtName"),
-                                    rs.getInt("CenterTypeId")
+                                    centerType,
+                                    rs.getString("CREATEDBY"),
+                                    rs.getDate("CREATEDDATETIME"),
+                                    rs.getString("UPDATEDBY"),
+                                    rs.getDate("UPDATEDDATETIME"),
+                                    district
                             )
                     );
                     return list;

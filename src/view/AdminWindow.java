@@ -28,7 +28,7 @@ public class AdminWindow extends javax.swing.JFrame {
         this.user = user;
         
         this.clientImage = new ImageIcon(this.user.getPhotoUrl());
-        if (this.user.getUserTypeName().equals("admin")){
+        if (this.user.getUserType().getName().equals("admin")){
             Index.remove(myAccount);
         }
     }
@@ -107,7 +107,7 @@ public class AdminWindow extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Helvetica Neue", 2, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        jLabel2.setText(this.user.getUserTypeName());
+        jLabel2.setText(this.user.getUserType().getName());
         jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         imageIcon.setBackground(new java.awt.Color(255, 255, 255));

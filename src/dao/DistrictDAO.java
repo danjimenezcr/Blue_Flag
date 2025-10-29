@@ -1,5 +1,6 @@
 package dao;
 
+import model.City;
 import model.District;
 import util.DBConnection;
 
@@ -10,8 +11,8 @@ import oracle.jdbc.OracleTypes;
 
 public class DistrictDAO {
 
-    public List<District> getDistricts(int districtId, String name, String cityId) {
-        String sql = "{ call ? := DistrictManager.getDistricts(?, ?, ?) }";
+    public List<District> getDistricts(Integer districtId, String name, Integer cityId) {
+        String sql = "{  ? = call DISTRICTMANAGER.GETDISTRICTS(?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -20,16 +21,20 @@ public class DistrictDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // Input Parameters
-            cs.setInt(2, districtId);
-            cs.setString(3, name);
-            cs.setString(4, cityId);
+            if(districtId != null)  cs.setInt(2, districtId);
+            else cs.setNull(2, OracleTypes.INTEGER);
+            if  (name != null) cs.setString(3, name);
+            else cs.setNull(3, OracleTypes.VARCHAR);
+            if (cityId != null) cs.setInt(4, cityId);
+            else cs.setNull(4, OracleTypes.INTEGER);
 
             cs.execute();
 
-            try (ResultSet rs = cs.getResultSet()) {
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
 
                 List<District> list = new ArrayList<>();
                 while (rs.next()) {
+                    City city = new CityDAO().getCities(rs.getInt("cityId"), null, null).get(0);
                     list.add(new District(
                             rs.getInt("id"),
                             rs.getString("name"),
@@ -37,12 +42,13 @@ public class DistrictDAO {
                             rs.getString("createdBy"),
                             rs.getDate("updatedDateTime"),
                             rs.getString("updatedBy"),
-                            rs.getInt("cityId")
-                    ));
-                return list;
-            }
+                            city
+                    )
+                    );
+                    return list;
+                }
 
-        } catch (Exception e){
+            } catch (Exception e){
                 System.out.println("Error: " + e.getMessage());
             }
         } catch (SQLException e){
@@ -50,4 +56,5 @@ public class DistrictDAO {
         }
         return null;
     }
-}
+
+}  

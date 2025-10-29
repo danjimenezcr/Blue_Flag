@@ -584,7 +584,7 @@ ALTER SESSION SET CURRENT_SCHEMA = BLUE;
 --         SELECT NVL(SUM(TO_NUMBER(uc.kilograms) * pc.pointsPerKg), 0)
 --         INTO vTotalUserPoints
 --         FROM UserXCollectionCenter uc
---         JOIN PointsConvertion pc ON pc.id = uc.pointsConvertionKey
+--         JOIN PointsConvertion pc ON pc.id = uc.pointsConvertion
 --         WHERE uc.userId = pUserId;
 --
 --         -- 2) Obtener costo del producto
@@ -609,7 +609,7 @@ ALTER SESSION SET CURRENT_SCHEMA = BLUE;
 --         FOR rec IN (
 --             SELECT uc.id, TO_NUMBER(uc.kilograms) * pc.pointsPerKg AS availablePoints
 --             FROM UserXCollectionCenter uc
---             JOIN PointsConvertion pc ON pc.id = uc.pointsConvertionKey
+--             JOIN PointsConvertion pc ON pc.id = uc.pointsConvertion
 --             WHERE uc.userId = pUserId
 --             ORDER BY uc.createdDateTime ASC
 --         ) LOOP

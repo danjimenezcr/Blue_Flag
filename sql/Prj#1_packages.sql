@@ -134,7 +134,7 @@ create or replace package body UserManager as
                     u.username,
                     u.IDNUMBER,
                     u.ADDRESS,
-                    u.DISTRICTID districtId,
+                    u.DISTRICTID district,
                     u.PHOTOURL,
                     u.PASSWORD,
                     g.id genderId,
@@ -324,7 +324,7 @@ d) Top 5 de los usuarios con mayores puntajes a nivel general*/
                         SUM(UC.kilograms * PC.pointsPerKg) AS total_points
                     FROM USERS U
                         JOIN userxcollectioncenter UC ON UC.userid = U.id
-                        JOIN pointsconvertion PC ON PC.id = UC.pointsConvertionKey
+                        JOIN pointsconvertion PC ON PC.id = UC.POINTSCONVERTIONKEY
                     GROUP BY U.FIRSTNAME, U.LASTNAME, u.USERNAME
                     ORDER BY total_points DESC
                     FETCH FIRST 5 ROWS ONLY;
@@ -926,6 +926,7 @@ CREATE OR REPLACE PACKAGE BODY DistrictManager AS
     BEGIN
         OPEN vcDistricts FOR
             SELECT
+                d.id,
                 d.name,
                 d.createdBy,
                 d.createdDateTime,
@@ -1021,6 +1022,7 @@ CREATE OR REPLACE PACKAGE BODY CityManager AS
     BEGIN
         OPEN vcCities FOR
             SELECT
+                c.id,
                 c.name,
                 c.createdBy,
                 c.createdDateTime,
@@ -1116,6 +1118,7 @@ CREATE OR REPLACE PACKAGE BODY ProvinceManager AS
     BEGIN
         OPEN vcProvinces FOR
             SELECT
+                p.id,
                 p.name AS provinceName,
                 p.createdBy,
                 p.createdDateTime,
@@ -1165,7 +1168,8 @@ CREATE OR REPLACE PACKAGE BODY CountryManager AS
     AS
         eNoCountryId EXCEPTION;
     BEGIN
-        DELETE FROM Country
+        DELETE
+        FROM Country
         WHERE Country.id = pCountryId;
 
         IF SQL%NOTFOUND THEN
@@ -1202,23 +1206,21 @@ CREATE OR REPLACE PACKAGE BODY CountryManager AS
 
     FUNCTION getCountries(
         pCountryId NUMBER DEFAULT NULL,
-        pName      VARCHAR2 DEFAULT NULL
+        pName VARCHAR2 DEFAULT NULL
     ) RETURN SYS_REFCURSOR
     AS
         vcCountries SYS_REFCURSOR;
     BEGIN
         OPEN vcCountries FOR
-            SELECT
-                name,
-                createdBy,
-                createdDateTime,
-                updatedBy,
-                updatedDateTime
-            FROM
-                Country
-            WHERE
-                id = NVL(pCountryId, id)
-                AND name LIKE '%' || NVL(pName, name) || '%';
+            SELECT id,
+                   name,
+                   createdBy,
+                   createdDateTime,
+                   updatedBy,
+                   updatedDateTime
+            FROM Country
+            WHERE id = NVL(pCountryId, id)
+              AND name LIKE '%' || NVL(pName, name) || '%';
         RETURN (vcCountries);
     EXCEPTION
         when NO_DATA_FOUND then
@@ -1309,13 +1311,13 @@ CREATE OR REPLACE PACKAGE BODY ProductManager AS
             SELECT
                 p.id,
                 p.description,
-                p.cost,
                 p.photoUrl,
-                p.createdBy,
+                p.cost,
                 p.createdDateTime,
-                p.updatedBy,
+                p.createdBy,
                 p.updatedDateTime,
-                ae.name AS authorizedEntity
+                p.updatedBy,
+                ae.id AS authorizedEntityId
             FROM
                 Product p
                 INNER JOIN AUTORIZEDENTITY ae ON p.authorizedEntityId = ae.id
@@ -1455,10 +1457,9 @@ CREATE OR REPLACE PACKAGE BODY ProductxUserManager AS
         SELECT NVL(SUM(TO_NUMBER(uc.kilograms) * pc.pointsPerKg), 0)
         INTO vTotalUserPoints
         FROM UserXCollectionCenter uc
-        JOIN PointsConvertion pc ON pc.id = uc.pointsConvertionKey
+        JOIN PointsConvertion pc ON pc.id = uc.POINTSCONVERTIONKEY
         WHERE uc.userId = pUserId;
 
-        -- 1) Calcular puntos gastados por el  usuario
         SELECT NVL(SUM(TO_NUMBER(uc.QUANTITY) * p.COST), 0)
         INTO vSpentPoints
         FROM PRODUCTXUSER uc
@@ -1467,21 +1468,17 @@ CREATE OR REPLACE PACKAGE BODY ProductxUserManager AS
 
         vTotalUserPoints := vTotalUserPoints - vSpentPoints;
 
-        -- 2) Obtener costo del producto
         SELECT cost
         INTO vProductCost
         FROM Product
         WHERE id = pProductId;
 
-        -- 3) Calcular costo total del canje
         vTotalCost := vProductCost * pQuantity;
 
-        -- 4) Validación de puntos suficientes
         IF vTotalUserPoints < vTotalCost THEN
             raise eNotEnoughPoints;
         end if;
 
-        -- 5) Insertar canje en ProductXUser
         INSERT INTO ProductXUser (id, userId, productId, quantity)
         VALUES (s_productxuser.NEXTVAL, pUserId, pProductId, pQuantity);
 
@@ -2245,7 +2242,11 @@ CREATE OR REPLACE PACKAGE BODY adminCollectionCenter AS
         ae.manager,
         ae.contact,
         ae.DISTRICTID,
-        cc.CenterTypeId
+        cc.CenterTypeId,
+        cc.CREATEDBY,
+        cc.CREATEDDATETIME,
+        cc.UPDATEDBY,
+        cc.UPDATEDDATETIME
       FROM AutorizedEntity ae
       JOIN CollectionCenter cc
         ON cc.AutorizedEntityId = ae.id
@@ -2299,8 +2300,8 @@ BEGIN
             tmxc.CREATEDDATETIME,
             tmxc.UPDATEDBY,
             tmxc.UPDATEDDATETIME,
-            ae.name AS CollectionCenter,
-            mt.name AS MaterialType
+            ae.id AS collectionCenterId,
+            mt.id AS materialTypeId
         FROM
             MaterialTypeXCollectionCenter tmxc
             JOIN CollectionCenter cc ON tmxc.AutorizedEntityid = cc.AutorizedEntityid
@@ -2348,7 +2349,7 @@ BEGIN
             tmc.AutorizedEntityid AS collection_center,
             EXTRACT(YEAR FROM uc.createdDateTime) AS year,
             EXTRACT(MONTH FROM uc.createdDateTime) AS month,
-            COUNT(DISTINCT tmc.materialTypeId) AS total_tipos_material,
+            COUNT(DISTINCT tmc.id) AS total_tipos_material,
             SUM(uc.kilograms) AS total_kilograms
         FROM MATERIALTYPEXCOLLECTIONCENTER tmc
         JOIN UserXCollectionCenter uc
@@ -2402,7 +2403,7 @@ CREATE OR REPLACE PACKAGE BODY adminUserXCollectionCenter AS
 PROCEDURE insertUserXCollectionCenter(userId_I NUMBER, CollectionC_I NUMBER, pointsConvertionKey_I NUMBER, kilograms_I NUMBER)
 AS
 BEGIN
-    INSERT INTO UserXCollectionCenter (id, userId ,CollectionCenter,pointsConvertionKey, kilograms)
+    INSERT INTO UserXCollectionCenter (id, userId ,CollectionCenter,POINTSCONVERTIONKEY, kilograms)
     VALUES (s_UserXCollectionCenter.NEXTVAL,userId_I, CollectionC_I, pointsConvertionKey_I, kilograms_I);
   COMMIT;
 EXCEPTION
@@ -2424,15 +2425,15 @@ BEGIN
             usxc.CREATEDDATETIME,
             usxc.UPDATEDBY,
             usxc.UPDATEDDATETIME,
-            pc.pointsPerKg AS Points,
-            pc.name AS Material,
-            ae.name AS CollectionCenter,
-            us.FIRSTNAME AS UserFirstName
+            pc.id AS pointsConvertionId,
+            pc.id AS materialType,
+            ae.id AS collectionCenterId,
+            us.id AS userId
         FROM
             UserXCollectionCenter usxc
             INNER JOIN AutorizedEntity ae ON usxc.COLLECTIONCENTER = ae.id
             INNER JOIN USERS us ON usxc.userId = us.id
-            INNER JOIN PointsConvertion pc ON usxc.pointsConvertionKey = pc.id
+            INNER JOIN PointsConvertion pc ON usxc.POINTSCONVERTIONKEY = pc.id
         WHERE
             usxc.id = NVL(uxcId, usxc.id)
         AND us.id = NVL(uxcUserid, us.id)
@@ -2474,7 +2475,7 @@ IS
             UPDATE USERXCOLLECTIONCENTER
             SET USERID = NVL(userId_I, userId_I),
                 CollectionCenter = NVL(CollectionC_I, CollectionCenter),
-                pointsConvertionKey = NVL(pointsConvertionKey_I, pointsConvertionKey),
+                POINTSCONVERTIONKEY = NVL(pointsConvertionKey_I, POINTSCONVERTIONKEY),
                 kilograms = NVL(kilograms_I, kilograms)
             WHERE id = id_I;
 

@@ -161,7 +161,7 @@ ADD CONSTRAINT fk_TMXCenter_MaterialType FOREIGN KEY (materialTypeid) REFERENCES
 --     updatedBy VARCHAR(25),
 --     updatedDateTime DATE,
 --     CollectionCenter NUMBER(6) CONSTRAINT UXC_CollectionCenter_nn NOT NULL,
---     pointsConvertionKey NUMBER(6) CONSTRAINT UXC_pointsConvertionKey_nn NOT NULL,
+--     pointsConvertion NUMBER(6) CONSTRAINT UXC_pointsConvertionKey_nn NOT NULL,
 --     kilograms VARCHAR(5)
 -- );ALTER TABLE UserXCollectionCenter
 -- -- ADD CONSTRAINT pk_UXC PRIMARY KEY (id)
@@ -177,7 +177,7 @@ ADD CONSTRAINT fk_TMXCenter_MaterialType FOREIGN KEY (materialTypeid) REFERENCES
 -- ADD CONSTRAINT fk_UXC_CollectionC FOREIGN KEY (CollectionCenter) REFERENCES CollectionC(AutorizedEntityid);
 --
 -- ALTER TABLE UserXCollectionCenter
--- ADD CONSTRAINT fk_UXC_PointsC FOREIGN KEY (pointsConvertionKey) REFERENCES PointsConvertion(id);
+-- ADD CONSTRAINT fk_UXC_PointsC FOREIGN KEY (pointsConvertion) REFERENCES PointsConvertion(id);
 --
 -- ALTER TABLE UserXCollectionCenter
 -- ADD CONSTRAINT fk_UXC_userId FOREIGN KEY (userId) REFERENCES User(id);

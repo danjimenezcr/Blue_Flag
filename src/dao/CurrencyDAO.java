@@ -1,3 +1,5 @@
+package dao;
+
 import model.Currency;
 import util.DBConnection;
 
@@ -9,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class CurrencyDAO {
 
-    public List<Currency> getCurrencies(String id, String code, String Symbol) {
+    public List<Currency> getCurrencies(int id, String code, String Symbol) {
         String sql = "{ ? = call CurrencyManager.getCurrencies(?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -19,7 +21,7 @@ public class CurrencyDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, code);
             cs.setString(4, Symbol);
             System.out.println(cs.toString());

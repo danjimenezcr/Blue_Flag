@@ -1,6 +1,8 @@
 package dao;
 
 import model.AffiliatedBusiness;
+import model.BusinessType;
+import model.District;
 import util.DBConnection;
 
 import java.sql.*;
@@ -10,7 +12,7 @@ import oracle.jdbc.OracleTypes;
 
 public class AffiliatedBusinessDAO {
 
-    public List<AffiliatedBusiness> getAffiliatedBusiness(String id, String name, String businessTypeId, String districtId) {
+    public List<AffiliatedBusiness> getAffiliatedBusiness(Integer id, String name, Integer businessTypeId, Integer districtId) {
         String sql = "{ call ? := adminAffiliatedBusiness.getAffiliatedBusiness(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -20,10 +22,10 @@ public class AffiliatedBusinessDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parameters 
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, name);
-            cs.setString(4, businessTypeId);
-            cs.setString(5, districtId);
+            cs.setInt(4, businessTypeId);
+            cs.setInt(5, districtId);
 
             cs.execute();
 
@@ -31,6 +33,8 @@ public class AffiliatedBusinessDAO {
 
                 List<AffiliatedBusiness> list = new ArrayList<>();
                 while (rs.next()) {
+                    District district = new DistrictDAO().getDistricts(rs.getInt("districtId"), null, null).get(0);
+                    BusinessType businessType = new BusinessTypeDAO().getBusinessType(rs.getInt("businessTypeId"), null).get(0);
                     list.add(new AffiliatedBusiness(
                             rs.getInt("id"),                
                             rs.getString("name"),          
@@ -38,8 +42,8 @@ public class AffiliatedBusinessDAO {
                             rs.getString("closeHour"),       
                             rs.getString("manager"),         
                             rs.getString("contact"),         
-                            rs.getInt("districtId"),       
-                            rs.getInt("businessTypeId"),      
+                            district,
+                            businessType,
                             rs.getString("createdBy"),        
                             rs.getDate("createdDateTime"),    
                             rs.getString("updatedBy"),        

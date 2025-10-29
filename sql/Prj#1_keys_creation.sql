@@ -218,7 +218,7 @@ ALTER TABLE UserXCollectionCenter
 ADD CONSTRAINT fk_UXC_CollectionC FOREIGN KEY (CollectionCenter) REFERENCES CollectionCenter(AutorizedEntityid);
 
 ALTER TABLE UserXCollectionCenter
-ADD CONSTRAINT fk_UXC_PointsC FOREIGN KEY (pointsConvertionKey) REFERENCES PointsConvertion(id);
+ADD CONSTRAINT fk_UXC_PointsC FOREIGN KEY (pointsConvertion) REFERENCES PointsConvertion(id);
 
 ALTER TABLE UserXCollectionCenter
 ADD CONSTRAINT fk_UXC_userId FOREIGN KEY (userId) REFERENCES Users(id);

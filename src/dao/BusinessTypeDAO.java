@@ -1,3 +1,5 @@
+package dao;
+
 import model.BusinessType;
 import util.DBConnection;
 
@@ -9,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class BusinessTypeDAO {
 
-    public List<BusinessType> getBusinessType(String id, String description) {
+    public List<BusinessType> getBusinessType(Integer id, String description) {
         String sql = "{ ? = call adminBusinessType.getBusinessType(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -19,7 +21,7 @@ public class BusinessTypeDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, description);
             System.out.println(cs.toString());
 
@@ -29,13 +31,12 @@ public class BusinessTypeDAO {
 
                 List<BusinessType> list = new ArrayList<>();
                 while (rs.next()) {
-                    list.add( new BusinessType(rs.getInt("id"),
+                    list.add(new BusinessType(rs.getInt("id"),
                                     rs.getString("description"),
                                     rs.getString("createdBy"),
                                     rs.getDate("createdDateTime"),
                                     rs.getString("updatedBy"),
                                     rs.getDate("updatedDateTime")
-                                    
                             )
                     );
                     return list;

@@ -11,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class CenterTypeDAO {
 
-    public List<CenterType> getCenterType(String id, String description) {
+    public List<CenterType> getCenterType(Integer id, String description) {
         String sql = "{ ? = call adminCenterType.getCenterType(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -21,7 +21,7 @@ public class CenterTypeDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, description);
             System.out.println(cs.toString());
 

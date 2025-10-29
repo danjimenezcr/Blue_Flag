@@ -10,8 +10,8 @@ import java.util.List;
 
 public class CountryDAO {
 
-    public List<Country> getCountries(Int countryId, String name) {
-        String sql = "{ call ? := CountryManager.getCountries(?, ?) }";
+    public List<Country> getCountries(Integer countryId, String name) {
+        String sql = "{ ? = call COUNTRYMANAGER.GETCOUNTRIES(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -20,12 +20,16 @@ public class CountryDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parameters
-            cs.setInt(2, countryId);
-            cs.setString(3, name);
+            if(countryId != null) cs.setInt(2, countryId);
+            else cs.setNull(2, OracleTypes.INTEGER);
+
+            if (name != null) cs.setString(3, name);
+            else cs.setNull(3, OracleTypes.VARCHAR);
 
             cs.execute();
 
-            try (ResultSet rs = cs.getResultSet()) {
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                System.out.println("getCountries");
 
                 List<Country> list = new ArrayList<>();
                 while (rs.next()) {
@@ -37,13 +41,16 @@ public class CountryDAO {
                             rs.getDate("updatedDateTime"),
                             rs.getString("updatedBy")
                     ));
-                return list;
+
                 }
+                return list;
             } catch (Exception e){
                 System.out.println("Error: " + e.getMessage());
+                e.printStackTrace();
             }
         } catch (SQLException e){
             System.out.println("Failed to connect to database! " + e.getMessage());
+            e.printStackTrace();
         }
 
         return null;

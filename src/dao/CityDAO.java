@@ -1,6 +1,7 @@
 package dao;
 
 import model.City;
+import model.Province;
 import oracle.jdbc.OracleTypes;
 import util.DBConnection;
 
@@ -10,8 +11,8 @@ import java.util.List;
 
 public class CityDAO {
 
-    public List<City> getCities(int cityId, String name, String provinceId) {
-        String sql = "{ call ? := CityManager.getCities(?, ?, ?) }";
+    public List<City> getCities(Integer cityId, String name, Integer provinceId) {
+        String sql = "{ ? = call CITYMANAGER.GETCITIES(?, ?, ?)}";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -21,15 +22,17 @@ public class CityDAO {
 
             // Input Parameters
             cs.setInt(2, cityId);
-            cs.setString(3, name);
-            cs.setString(4, provinceId);
+            if (name != null) cs.setString(3, name);
+            else cs.setNull(3, OracleTypes.VARCHAR);
+            if (provinceId != null) cs.setInt(4, provinceId);
+            else cs.setNull(4, OracleTypes.INTEGER);
 
             cs.execute();
-
-            try (ResultSet rs = cs.getResultSet()) {
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
 
                 List<City> list = new ArrayList<>();
                 while (rs.next()) {
+                    Province province = new ProvinceDAO().getProvinces(rs.getInt("PROVINCEID"), null, null).get(0);
                     list.add(new City(
                             rs.getInt("id"),
                             rs.getString("name"),
@@ -37,10 +40,11 @@ public class CityDAO {
                             rs.getString("createdBy"),
                             rs.getDate("updatedDateTime"),
                             rs.getString("updatedBy"),
-                            rs.getInt("provinceId")
+                            province
                     ));
                 return list;
             }
+
             } catch (Exception e){
                 System.out.println("Error: " + e.getMessage());
             }

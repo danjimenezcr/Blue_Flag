@@ -1,4 +1,7 @@
+package dao;
+
 import model.AutorizedEntity;
+import model.District;
 import util.DBConnection;
 
 import java.sql.*;
@@ -9,40 +12,30 @@ import oracle.jdbc.OracleTypes;
 
 public class AutorizedEntityDAO {
 
-    public int insertAutorizedEntity(String name, String openHour, String closeHour,
-                                     String manager, String contact, String districtId) {
-        String sql = "{ call adminAutorizedEntity.insertAutorizedEntity(?, ?, ?, ?, ?, ?, ?) }";
-        int newId = -1;
+    public void addAutorizedEntity(AutorizedEntity autorizedEntity) {
+        String sql = "{call ADMINAUTORIZEDENTITY.INSERTAUTORIZEDENTITY(?, ?, ?, ?, ?, ?)}";
 
-        try (Connection conn = DBConnection.getConnection();
-             CallableStatement cs = conn.prepareCall(sql)) {
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
 
-            // 🔹 1. Parámetros de entrada
-            cs.setString(1, name);
-            cs.setTimestamp(2, Timestamp.valueOf(openHour));  
-            cs.setTimestamp(3, Timestamp.valueOf(closeHour));
-            cs.setString(4, manager);
-            cs.setString(5, contact);
-            cs.setInt(6, Integer.parseInt(districtId));
+            //Input parameters
+            cs.setString(1, autorizedEntity.getName());
+            cs.setTimestamp(2, autorizedEntity.getOpenHour());
+            cs.setTimestamp(3, autorizedEntity.getCloseHour());
+            cs.setString(4, autorizedEntity.getManager());
+            cs.setString(5, autorizedEntity.getContact());
+            cs.setInt(6, autorizedEntity.getDistrict().getId());
 
-            cs.registerOutParameter(7, Types.NUMERIC);
-
-            System.out.println("Execution: " + cs.toString());
             cs.execute();
 
-            newId = cs.getInt(7);
-            System.out.println(" insert register with ID: " + newId);
-
-        } catch (SQLException e) {
-            System.err.println("Error: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Incorrect time format, use 'YYYY-MM-DD HH:MI:SS");
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
         }
 
-        return newId;
     }
 
-    public List<AutorizedEntity> getAutorizedEntity(String id, String name, String manager, String districtId) {
+    public List<AutorizedEntity> getAutorizedEntity(Integer id, String name, String manager, Integer districtId) {
         String sql = "{ ? = call adminAutorizedEntity.getAutorizedEntity(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -52,10 +45,10 @@ public class AutorizedEntityDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, name);
             cs.setString(4, manager);
-            cs.setString(5, districtId);
+            cs.setInt(5, districtId);
             System.out.println(cs.toString());
 
             cs.execute();
@@ -64,13 +57,14 @@ public class AutorizedEntityDAO {
 
                 List<AutorizedEntity> list = new ArrayList<>();
                 while (rs.next()) {
+                    District district = new DistrictDAO().getDistricts(rs.getInt("DISTRICTID"), null, null).get(0);
                     list.add( new AutorizedEntity(rs.getInt("id"),
                                     rs.getString("name"),
-                                    rs.getString("openHour"),
-                                    rs.getString("closeHour"),
+                                    rs.getTimestamp("openHour"),
+                                    rs.getTimestamp("closeHour"),
                                     rs.getString("manager"),
                                     rs.getString("contact"),
-                                    rs.getString("districtName")
+                                    district
                             )
                     );
                     return list;
@@ -84,5 +78,23 @@ public class AutorizedEntityDAO {
         }
         return null;
     }
+
+public void deleteAutorizedEntity(AutorizedEntity autorizedEntity){
+        String sql = "{call ADMINAUTORIZEDENTITY.INSERTAUTORIZEDENTITY(?)}}";
+        try (Connection conn = DBConnection.getConnection()){
+            CallableStatement cs = conn.prepareCall(sql);
+
+            //Input parameters
+            cs.setInt(1, autorizedEntity.getId());
+
+            cs.execute();
+
+        } catch (Exception e){
+            System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
+
 
 }

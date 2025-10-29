@@ -1,5 +1,6 @@
 package model;
 
+import java.nio.file.FileStore;
 import java.util.Date;
 
 public class AffiliatedBusiness {
@@ -10,8 +11,8 @@ public class AffiliatedBusiness {
     private String closeHour;
     private String manager;
     private String contact;
-    private int districtId;
-    private int businessTypeId;
+    private District district;
+    private BusinessType businessType;
     private String createdBy;
     private Date createdDateTime;
     private String updatedBy;
@@ -22,7 +23,7 @@ public class AffiliatedBusiness {
 
 
     public AffiliatedBusiness(int autorizedEntityId, String name, String openHour, String closeHour,
-                              String manager, String contact, int districtId, int businessTypeId,
+                              String manager, String contact, District district, BusinessType businessType,
                               String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime) {
         this.autorizedEntityId = autorizedEntityId;
         this.name = name;
@@ -30,8 +31,8 @@ public class AffiliatedBusiness {
         this.closeHour = closeHour;
         this.manager = manager;
         this.contact = contact;
-        this.districtId = districtId;
-        this.businessTypeId = businessTypeId;
+        this.district = district;
+        this.businessType = businessType;
         this.createdBy = createdBy;
         this.createdDateTime = createdDateTime;
         this.updatedBy = updatedBy;
@@ -87,19 +88,19 @@ public class AffiliatedBusiness {
         this.contact = contact; 
     }
 
-    public int getDistrictId() { 
-        return districtId; 
+    public District getDistrictId() {
+        return district;
     }
 
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId; 
+    public void setDistrictId(District district) {
+        this.district = district;
     }
 
-    public int getBusinessTypeId() { 
-        return businessTypeId;
+    public BusinessType getBusinessTypeId() {
+        return businessType;
     }
-    public void setBusinessTypeId(int businessTypeId) { 
-        this.businessTypeId = businessTypeId; 
+    public void setBusinessTypeId(BusinessType businessType) {
+        this.businessType = businessType;
     }
 
     public String getCreatedBy() { 

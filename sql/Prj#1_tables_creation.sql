@@ -230,7 +230,7 @@ CREATE TABLE UserXCollectionCenter
     updatedDateTime     DATE,
     CollectionCenter    NUMBER(6)
         CONSTRAINT UXC_CollectionCenter_nn NOT NULL,
-    pointsConvertionKey NUMBER(6)
+    pointsConvertion NUMBER(6)
         CONSTRAINT UXC_pointsConvertionKey_nn NOT NULL,
     kilograms           VARCHAR(5)
 );

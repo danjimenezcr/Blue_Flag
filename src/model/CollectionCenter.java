@@ -9,8 +9,8 @@ public class CollectionCenter {
     private String closeHour;
     private String manager;
     private String contact;
-    private int districtId;
-    private int centerTypeId;
+    private District district;
+    private CenterType centerType;
     private String createdBy;
     private Date createdDateTime;
     private String updatedBy;
@@ -19,7 +19,7 @@ public class CollectionCenter {
     public CollectionCenter() {
     }
 
-    public CollectionCenter(int autorizedEntityId, String name, String openHour, String closeHour, String manager, String contact,int centerTypeId, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime) 
+    public CollectionCenter(Integer autorizedEntityId, String name, String openHour, String closeHour, String manager, String contact, CenterType centerType, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime, District district)
     {
         this.autorizedEntityId = autorizedEntityId;
         this.name = name;
@@ -27,8 +27,8 @@ public class CollectionCenter {
         this.closeHour = closeHour;
         this.manager = manager;
         this.contact = contact;
-        this.districtId = districtId;
-        this.centerTypeId = centerTypeId;
+        this.district = district;
+        this.centerType = centerType;
         this.createdBy = createdBy;
         this.createdDateTime = createdDateTime;
         this.updatedBy = updatedBy;
@@ -84,20 +84,20 @@ public class CollectionCenter {
         this.contact = contact; 
     }
 
-    public int getDistrictId() { 
-        return districtId; 
+    public District getDistrict() {
+        return district;
     }
 
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId; 
+    public void setDistrict(District district) {
+        this.district = district;
     }
 
-    public int getCenterTypeId() {
-        return centerTypeId;
+    public CenterType getCenterType() {
+        return centerType;
     }
 
-    public void setCenterTypeId(int centerTypeId) {
-        this.centerTypeId = centerTypeId;
+    public void setCenterType(CenterType centerType) {
+        this.centerType = centerType;
     }
 
     public String getCreatedBy() {

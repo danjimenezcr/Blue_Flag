@@ -1,19 +1,20 @@
 package dao;
 
+import model.Emails;
 import model.Labels;
-import model.Phones;
 import model.User;
-import oracle.jdbc.OracleTypes;
 import util.DBConnection;
 
+import java.awt.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import oracle.jdbc.OracleTypes;
 
-public class PhonesDAO {
+public class EmailDAO {
 
-    public List<Phones> getPhones(String userId, String phoneId) {
-        String sql = "{ call ? := PhoneManager.getPhones(?, ?) }";
+    public List<Emails> getEmails(String userId, String emailId) {
+        String sql = "{ call ? := EmailManager.getEmails(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
             CallableStatement cs = conn.prepareCall(sql);
@@ -22,20 +23,20 @@ public class PhonesDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             // IN parameters
-            cs.setString(2, userId);
-            cs.setString(3, phoneId);
+            cs.setString(2, userId);  
+            cs.setString(3, emailId);  
 
             cs.execute();
 
             try (ResultSet rs = cs.getResultSet()) {
 
-                List<Phones> list = new ArrayList<>();
+                List<Emails> list = new ArrayList<>();
                 while (rs.next()) {
+                    User user = new UsersDAO().getUsers(rs.getInt("userId"), null, null, null,null, null, null).get(0);
                     Labels label = new LabelDAO().getLabels(rs.getInt("labelId")).get(0);
-                    User user = new UsersDAO().getUsers(rs.getInt("userId"), null, null, null, null, null, null).get(0);
-                    list.add(new Phones(
+                    list.add(new Emails(
                             rs.getInt("id"),
-                            rs.getInt("phoneNumber"),
+                            rs.getString("emailAddress"),
                             rs.getString("createdBy"),
                             rs.getDate("createdDate"),
                             rs.getString("updatedBy"),

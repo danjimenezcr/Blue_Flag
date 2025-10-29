@@ -4,24 +4,24 @@ import java.util.Date; // if needed
 
 public class MaterialTypeXCollectionCenter {
     private int id;
-    private int autorizedEntityId;
+    private AutorizedEntity authorizedEntity;
     private String createdBy;
     private Date createdDateTime;
     private String updatedBy;
     private Date updatedDateTime;
-    private int materialTypeId;
+    private MaterialType materialType;
 
     public MaterialTypeXCollectionCenter() {}
 
-    public MaterialTypeXCollectionCenter(int id, int autorizedEntityId, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime, int materialTypeId) 
+    public MaterialTypeXCollectionCenter(int id, AutorizedEntity authorizedEntity, String createdBy, Date createdDateTime, String updatedBy, Date updatedDateTime, MaterialType materialType)
     {
         this.id = id;
-        this.autorizedEntityId = autorizedEntityId;
+        this.authorizedEntity = authorizedEntity;
         this.createdBy = createdBy;
         this.createdDateTime = createdDateTime;
         this.updatedBy = updatedBy;
         this.updatedDateTime = updatedDateTime;
-        this.materialTypeId = materialTypeId;
+        this.materialType = materialType;
     }
 
     // Getters y Setters
@@ -34,12 +34,12 @@ public class MaterialTypeXCollectionCenter {
         this.id = id;
     }
 
-    public int getAutorizedEntityId() {
-        return autorizedEntityId;
+    public AutorizedEntity getAuthorizedEntity() {
+        return authorizedEntity;
     }
 
-    public void setAutorizedEntityId(int autorizedEntityId) {
-        this.autorizedEntityId = autorizedEntityId;
+    public void setAuthorizedEntity(AutorizedEntity authorizedEntity) {
+        this.authorizedEntity = authorizedEntity;
     }
 
     public String getCreatedBy() {
@@ -74,11 +74,11 @@ public class MaterialTypeXCollectionCenter {
         this.updatedDateTime = updatedDateTime;
     }
 
-    public int getMaterialTypeId() {
-        return materialTypeId;
+    public MaterialType getMaterialType() {
+        return materialType;
     }
 
-    public void setMaterialTypeId(int materialTypeId) {
-        this.materialTypeId = materialTypeId;
+    public void setMaterialType(MaterialType materialType) {
+        this.materialType = materialType;
     }
 }

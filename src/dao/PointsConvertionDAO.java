@@ -1,15 +1,19 @@
+package dao;
+
+import model.MaterialType;
 import model.PointsConvertion;
 import util.DBConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
 
 
 public class PointsConvertionDAO {
 
-    public List<PointsConvertion> getPointsConvertion(String id, String name, String CurrencyId, String MaterialTypeId) {
+    public List<PointsConvertion> getPointsConvertion(Integer id, String name, Integer CurrencyId, Integer MaterialTypeId) {
         String sql = "{ ? = call PointsConvertionManager.getPointsConvertion(?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -19,11 +23,10 @@ public class PointsConvertionDAO {
             cs.registerOutParameter(1, OracleTypes.CURSOR);
 
             //Parameters Input
-            cs.setString(2, id);
+            cs.setInt(2, id);
             cs.setString(3, name);
-            cs.setString(4, CurrencyId);
-            cs.setString(5, MaterialTypeId);
-            System.out.println(cs.toString());
+            cs.setInt(4, CurrencyId);
+            cs.setInt(5, MaterialTypeId);
 
             cs.execute();
 
@@ -31,6 +34,8 @@ public class PointsConvertionDAO {
 
                 List<PointsConvertion> list = new ArrayList<>();
                 while (rs.next()) {
+                    model.Currency currency = new CurrencyDAO().getCurrencies(rs.getInt("currencyCode"), null, null).get(0);
+                    MaterialType materialType = new MaterialTypeDAO().getMaterialType(rs.getInt("materialTypeId"), null).get(0);
                     list.add( new PointsConvertion(rs.getInt("id"),
                                     rs.getString("name"),
                                     rs.getString("createdBy"),
@@ -39,8 +44,8 @@ public class PointsConvertionDAO {
                                     rs.getDate("updatedDateTime"),
                                     rs.getInt("pointsPerKg"),
                                     rs.getInt("valueInCurrency"),
-                                    rs.getString("currencyCode"),
-                                    rs.getString("materialTypeName")
+                                    currency,
+                                    materialType
                             )
                     );
                     return list;

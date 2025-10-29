@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import oracle.jdbc.OracleTypes;
 
+import javax.xml.transform.Result;
+
 
 public class UsersDAO {
 
-    public List<User> getUsers(int userId, String username, String name, String idNumber, String provinceId, String districtId, String cityId) {
+    public List<User> getUsers(Integer userId, String username, String name, String idNumber, String provinceId, String districtId, String cityId) {
         String sql = "{ ? = call USERMANAGER.GETUSERS(?, ?, ?, ?, ?, ?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {
@@ -100,6 +102,7 @@ public class UsersDAO {
 
         } catch (Exception e){
             System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
         }
     }
         
@@ -115,6 +118,7 @@ public class UsersDAO {
 
         } catch (Exception e){
             System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
         }
 
     }
@@ -133,16 +137,31 @@ public class UsersDAO {
             cs.setInt(5, user.getGender().getId());
             cs.setInt(6, user.getDistrict().getId());
             cs.setString(7, user.getAddress());
-
             cs.execute();
 
         } catch (Exception e){
             System.out.println("Failed to connect to database: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        System.out.println(new DistrictDAO().getDistricts(0, null, null));
+//        String sql = "{? = call COUNTRYMANAGER.GETCOUNTRIES(0, null) }";
+//        try (Connection conn = DBConnection.getConnection()){
+//            CallableStatement cs = conn.prepareCall(sql);
+//            cs.registerOutParameter(1, OracleTypes.CURSOR);
+//
+//            cs.execute();
+//            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+//                while (rs.next()) {
+//                    System.out.println(rs.getInt("id"));
+//                }
+//            }
+//        } catch (Exception e){
+//            System.out.println("Failed to connect to database: " + e.getMessage());
+//            e.printStackTrace();
+//        }
+        System.out.println(new ProvinceDAO().getProvinces(null, null, null));
     }
 
 }

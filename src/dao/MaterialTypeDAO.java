@@ -11,7 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 public class MaterialTypeDAO {
 
-    public List<MaterialType> getMaterialType(int id, String name) {
+    public List<MaterialType> getMaterialType(Integer id, String name) {
         String sql = "{ ? = call adminMaterialType.getMaterialType(?, ?) }";
 
         try (Connection conn = DBConnection.getConnection()) {

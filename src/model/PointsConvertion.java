@@ -5,19 +5,19 @@ import java.util.Date; // if needed
 
 public class PointsConvertion {
     private int id;
-    private int name;
+    private String name;
     private String updatedBy;
     private Date updatedDateTime;
     private String createdBy;
     private Date createdDateTime;
     private double pointsPerKg;
     private double valueInCurrency;
-    private int currencyId;
-    private int materialTypeId;
+    private Currency currency;
+    private MaterialType materialType;
 
     public PointsConvertion() {}
 
-    public PointsConvertion(int id, int name, String updatedBy, Date updatedDateTime, String createdBy, Date createdDateTime, double pointsPerKg, double valueInCurrency, int currencyId, int materialTypeId) 
+    public PointsConvertion(int id, String name, String updatedBy, Date updatedDateTime, String createdBy, Date createdDateTime, double pointsPerKg, double valueInCurrency, Currency currency, MaterialType materialType)
     {
         this.id = id;
         this.name = name;
@@ -27,8 +27,8 @@ public class PointsConvertion {
         this.createdDateTime = createdDateTime;
         this.pointsPerKg = pointsPerKg;
         this.valueInCurrency = valueInCurrency;
-        this.currencyId = currencyId;
-        this.materialTypeId = materialTypeId;
+        this.currency = currency;
+        this.materialType = materialType;
     }
 
     // Getters y Setters
@@ -41,11 +41,11 @@ public class PointsConvertion {
         this.id = id;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -97,19 +97,19 @@ public class PointsConvertion {
         this.valueInCurrency = valueInCurrency;
     }
 
-    public int getCurrencyId() {
-        return currencyId;
+    public Currency getCurrencyId() {
+        return currency;
     }
 
-    public void setCurrencyId(int currencyId) {
-        this.currencyId = currencyId;
+    public void setCurrencyId(Currency currency) {
+        this.currency = currency;
     }
 
-    public int getMaterialTypeId() {
-        return materialTypeId;
+    public MaterialType getMaterialTypeId() {
+        return materialType;
     }
 
-    public void setMaterialTypeId(int materialTypeId) {
-        this.materialTypeId = materialTypeId;
+    public void setMaterialTypeId(MaterialType materialType) {
+        this.materialType = materialType;
     }
 }
