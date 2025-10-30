@@ -4,11 +4,13 @@
  */
 package view;
 
-import controller.MainController;
+import controller.*;
+
 import java.awt.Image;
 import java.awt.Toolkit;
-import javax.swing.ImageIcon;
-import model.User;
+import javax.swing.*;
+
+import model.*;
 
 
 /**
@@ -37,6 +39,8 @@ public class MainWindow extends javax.swing.JFrame {
             Index.remove(this.collectionCenterReports);
             Index.remove(this.stadisticReports);
         }
+
+
     }
 
     /**
@@ -124,7 +128,7 @@ public class MainWindow extends javax.swing.JFrame {
         pIdLabelsM = new javax.swing.JTextField();
         locationManager = new javax.swing.JPanel();
         jScrollPane13 = new javax.swing.JScrollPane();
-        tableLabelsM1 = new javax.swing.JTable();
+        tableDistrictsM = new javax.swing.JTable();
         pNameDistrictLM = new javax.swing.JTextField();
         updateBtnDistrictLM = new javax.swing.JButton();
         addBtnDistrictLM = new javax.swing.JButton();
@@ -133,7 +137,7 @@ public class MainWindow extends javax.swing.JFrame {
         pIdCityLM = new javax.swing.JTextField();
         pNameCityLM = new javax.swing.JTextField();
         jScrollPane14 = new javax.swing.JScrollPane();
-        tableLabelsM2 = new javax.swing.JTable();
+        tableCitiesM = new javax.swing.JTable();
         addBtnCityLM = new javax.swing.JButton();
         updateBtnCityLM = new javax.swing.JButton();
         deleteBtnCityLM = new javax.swing.JButton();
@@ -968,17 +972,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         labelManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableLabelsM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableLabelsM.setModel(new LabelsController().getLabels(this));
         jScrollPane5.setViewportView(tableLabelsM);
 
         pLabelNameLabelsM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1034,25 +1028,15 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnLabelsM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnLabelsM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Labels<div></html>", labelManager);
 
         locationManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableLabelsM1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane13.setViewportView(tableLabelsM1);
+        tableDistrictsM.setModel(new LocationController().getDistrictModel(this));
+        jScrollPane13.setViewportView(tableDistrictsM);
 
         pNameDistrictLM.setBackground(new java.awt.Color(255, 255, 255));
         pNameDistrictLM.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
@@ -1080,18 +1064,8 @@ public class MainWindow extends javax.swing.JFrame {
         pNameCityLM.setBackground(new java.awt.Color(255, 255, 255));
         pNameCityLM.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
 
-        tableLabelsM2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane14.setViewportView(tableLabelsM2);
+        tableCitiesM.setModel(new LocationController().getCitiesModel(this));
+        jScrollPane14.setViewportView(tableCitiesM);
 
         addBtnCityLM.setBackground(new java.awt.Color(0, 51, 102));
         addBtnCityLM.setForeground(new java.awt.Color(255, 255, 255));
@@ -1213,17 +1187,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         genderManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableGendersM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableGendersM.setModel(new GenderController().getGenderModel(this));
         jScrollPane6.setViewportView(tableGendersM);
 
         pNameGendersM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1279,24 +1243,14 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnGendersM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnGendersM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Genders<div></html>", genderManager);
 
         AFFBusinessManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableABM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableABM.setModel(new AffiliatedBusinessController().getBusinessModel(this));
         jScrollPane12.setViewportView(tableABM);
 
         pNameABM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1397,24 +1351,14 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnABM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnABM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Affiliate Businesses<div></html>", AFFBusinessManager);
 
         CCManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableCCM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableCCM.setModel(new CollectionCenterController().getCollectionCenterModel(this));
         jScrollPane10.setViewportView(tableCCM);
 
         pNameCCM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1515,24 +1459,14 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnCCM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnCCM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Collection Centers<div></html>", CCManager);
 
         materialTypeManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableMTM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableMTM.setModel(new MaterialTypeController().getMaterialTypeModel(this));
         jScrollPane9.setViewportView(tableMTM);
 
         pNameMTM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1588,24 +1522,14 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnMTM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnMTM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Material Types<div></html>", materialTypeManager);
 
         businessTypeManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableBTM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableBTM.setModel(new BusinessTypeController().getBusinessTypeModel(this));
         jScrollPane7.setViewportView(tableBTM);
 
         pNameBTM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1666,24 +1590,14 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnBTM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnBTM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Business Types<div></html>", businessTypeManager);
 
         centerTypeManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tableCTM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableCTM.setModel(new CenterTypeController().getCenterTypeModel(this));
         jScrollPane8.setViewportView(tableCTM);
 
         pNameCTM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1744,24 +1658,14 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnCTM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnCTM, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Center Types<div></html>", centerTypeManager);
 
         pointsManager.setBackground(new java.awt.Color(255, 255, 255));
 
-        tablePPM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tablePPM.setModel(new PointsController().getPointsModel(this));
         jScrollPane11.setViewportView(tablePPM);
 
         pNamePPM.setBackground(new java.awt.Color(255, 255, 255));
@@ -1852,7 +1756,7 @@ public class MainWindow extends javax.swing.JFrame {
                             .addComponent(addBtnLabelsM2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(deleteBtnLabelsM2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
 
         maintainanceTab.addTab("<html><div style=\"padding: 10px;\">Points Parameters<div></html>", pointsManager);
@@ -1875,17 +1779,7 @@ public class MainWindow extends javax.swing.JFrame {
         productImagePM.setIcon(this.clientImage);
         productImagePM.setOpaque(true);
 
-        tableProductsM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tableProductsM.setModel(new ProductsController().getProductsTable(this));
         jScrollPane16.setViewportView(tableProductsM);
 
         updateBtnProductM.setBackground(new java.awt.Color(0, 51, 102));
@@ -2060,17 +1954,7 @@ public class MainWindow extends javax.swing.JFrame {
         pDistrictUserTab.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         pDistrictUserTab.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "District", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
 
-        tUsersUserTab.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
+        tUsersUserTab.setModel(new UserController().getUsersTable(this));
         jScrollPane1.setViewportView(tUsersUserTab);
 
         pFirstNameUsers.setBackground(new java.awt.Color(255, 255, 255));
@@ -2279,8 +2163,21 @@ public class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_pNamePPMActionPerformed
 
     /**
-     * @param args the command line arguments
+     * @paramargs the command line arguments
      */
+
+    public JTable getUsersTable(){
+        return tUsersUserTab;
+    }
+
+    public void showMessage(String message){
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    public void showError(String message){
+        JOptionPane.showMessageDialog(this, message);
+    }
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel AFFBusinessManager;
@@ -2465,10 +2362,10 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JTable tableBTM;
     private javax.swing.JTable tableCCM;
     private javax.swing.JTable tableCTM;
+    private javax.swing.JTable tableCitiesM;
+    private javax.swing.JTable tableDistrictsM;
     private javax.swing.JTable tableGendersM;
     private javax.swing.JTable tableLabelsM;
-    private javax.swing.JTable tableLabelsM1;
-    private javax.swing.JTable tableLabelsM2;
     private javax.swing.JTable tableMTM;
     private javax.swing.JTable tablePPM;
     private javax.swing.JTable tableProductsM;

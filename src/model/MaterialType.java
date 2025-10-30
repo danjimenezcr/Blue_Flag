@@ -73,14 +73,7 @@ public class MaterialType {
 
     @Override
     public String toString() {
-        return "MaterialType{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDateTime=" + createdDateTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedDateTime=" + updatedDateTime +
-                '}';
+        return name;
     }
 
 }

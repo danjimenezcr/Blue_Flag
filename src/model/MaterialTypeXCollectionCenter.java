@@ -84,15 +84,7 @@ public class MaterialTypeXCollectionCenter {
 
     @Override
     public String toString() {
-        return "MaterialTypeXCollectionCenter{" +
-                "id=" + id +
-                ", authorizedEntity=" + (authorizedEntity != null ? authorizedEntity.toString() : "null") +
-                ", materialType=" + (materialType != null ? materialType.toString() : "null") +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDateTime=" + createdDateTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedDateTime=" + updatedDateTime +
-                '}';
+        return "id=" + id;
     }
 
 }

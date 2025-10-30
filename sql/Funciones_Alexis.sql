@@ -183,15 +183,17 @@ CREATE OR REPLACE PACKAGE BODY adminAffiliatedBusiness AS
         ae.closeHour,
         ae.manager,
         ae.contact,
-        ae.districtName,
+        d.name AS DistrictName,
         ab.BusinessTypeId
       FROM AutorizedEntity ae
       JOIN AffiliatedBusiness ab
         ON ab.AutorizedEntityId = ae.id
+      JOIN District d
+        ON d.id = ae.DistrictId
      WHERE ae.id = NVL(pId, ae.id)
        AND ae.name LIKE '%' || NVL(pName, ae.name) || '%'
        AND ab.BusinessTypeId = NVL(pBusinessTypeId, ab.BusinessTypeId)
-       AND ae.districtName = NVL(pDistrictId, ae.districtName);
+       AND d.name  = NVL(pDistrictId, d.name);
     RETURN (vcAffiliatedBusiness);
   EXCEPTION
     WHEN NO_DATA_FOUND THEN

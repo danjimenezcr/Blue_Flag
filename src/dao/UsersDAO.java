@@ -6,6 +6,7 @@ import util.DBConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import oracle.jdbc.OracleTypes;
 
 import javax.xml.transform.Result;
@@ -124,7 +125,7 @@ public class UsersDAO {
             //Input parameters
             if(user.getFirstName() != null) cs.setString(1, user.getFirstName());
             else cs.setNull(1, OracleTypes.VARCHAR);
-            if(user.getBirthDate() != null) cs.setDate(2, (java.sql.Date) user.getBirthDate());
+            if(user.getBirthDate() != null) cs.setDate(2, new java.sql.Date (user.getBirthDate().getTime()));
             else cs.setNull(2, OracleTypes.DATE);
             if(user.getUsername() != null) cs.setString(3, user.getUsername());
             else cs.setNull(3, OracleTypes.VARCHAR);
@@ -143,18 +144,18 @@ public class UsersDAO {
             else cs.setNull(9, OracleTypes.INTEGER);
             if(user.getIdType() != null) cs.setInt(10,user.getIdType().getId());
             else cs.setNull(10, OracleTypes.INTEGER);
-            if(user.getDistrict() != null) cs.setInt(11,user.getDistrict().getId());
+            if(user.getDistrict() != null) cs.setInt(11,user.getUserType().getId());
             else cs.setNull(11,OracleTypes.INTEGER);
-            if(user.getAddress() != null) cs.setString(12,user.getAddress());
+            if(user.getDistrict() != null) cs.setInt(12,user.getDistrict().getId());
+            else cs.setNull(12,OracleTypes.INTEGER);
+            if(user.getAddress() != null) cs.setString(13,user.getAddress());
             else cs.setNull(13, OracleTypes.VARCHAR);
             if(user.getIdNumber() != null) cs.setString(14, user.getIdNumber());
             else cs.setNull(14, OracleTypes.VARCHAR);
 
             cs.execute();
-
         } catch (Exception e){
             System.out.println("Failed while inserting user: " + e.getMessage());
-            e.printStackTrace();
         }
     }
         
@@ -195,6 +196,156 @@ public class UsersDAO {
             System.out.println("Failed while inserting user: " + e.getMessage());
             e.printStackTrace();
         }
+    }
+    public DefaultTableModel getUsersTotalPoints(Date startDate, Date endDate) {
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("Name");
+        model.addColumn("Username");
+        model.addColumn("Earned Points");
+        model.addColumn("Redeemed Points");
+        model.addColumn("Difference");
+
+        String sql = "{ ? = call UserManager.getUsersTotalPoints(?, ?) }";
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            cs.setDate(2, startDate);
+            cs.setDate(3, endDate);
+
+            cs.execute();
+
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                while (rs.next()) {
+                    Object[] row = new Object[5];
+                    row[0] = rs.getString("name");
+                    row[1] = rs.getString("username");
+                    row[2] = rs.getDouble("earnedPoints");
+                    row[3] = rs.getDouble("redeemedPoints");
+                    row[4] = rs.getDouble("difference");
+                    model.addRow(row);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return model;
+    }
+
+    public DefaultTableModel getUsersRecyclingPoints(Integer collectionCenterId, Integer idNumber, String name) {
+        String sql = "{ ? = call UserManager.getUsersRecyclingPoints(?, ?, ?) }";
+        DefaultTableModel model = new DefaultTableModel(
+                new String[]{"Name", "Username", "Earned Points", "Kg Recycled"}, 0
+        );
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+
+            if (collectionCenterId != null)
+                cs.setInt(2, collectionCenterId);
+            else
+                cs.setNull(2, Types.INTEGER);
+
+            if (idNumber != null)
+                cs.setInt(3, idNumber);
+            else
+                cs.setNull(3, Types.INTEGER);
+
+            if (name != null)
+                cs.setString(4, name);
+            else
+                cs.setNull(4, Types.VARCHAR);
+
+            cs.execute();
+
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                while (rs.next()) {
+                    Object[] row = new Object[4];
+                    row[0] = rs.getString("name");
+                    row[1] = rs.getString("username");
+                    row[2] = rs.getDouble("earnedPoints");
+                    row[3] = rs.getDouble("kgRecycled");
+                    model.addRow(row);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error fetching recycling points: " + e.getMessage());
+        }
+
+        return model;
+    }
+
+    public DefaultTableModel getUserByAge() {
+        String sql = "{ ? = call UserManager.getUserByAge }";
+        DefaultTableModel model = new DefaultTableModel(
+                new String[]{"Age Group", "User Count"}, 0
+        );
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            cs.execute();
+
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                while (rs.next()) {
+                    Object[] row = new Object[2];
+                    row[0] = rs.getString("ageGroup");
+                    row[1] = rs.getInt("countUsers");
+                    model.addRow(row);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error fetching users by age: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return model;
+    }
+
+    public DefaultTableModel getTop5Users() {
+        String sql = "{ ? = call UserManager.getTop5Users }";
+
+        DefaultTableModel model = new DefaultTableModel(
+                new String[]{"Full Name", "Username", "Total Points"}, 0
+        );
+
+        try (Connection conn = DBConnection.getConnection();
+             CallableStatement cs = conn.prepareCall(sql)) {
+
+            cs.registerOutParameter(1, OracleTypes.CURSOR);
+
+            cs.execute();
+            try (ResultSet rs = (ResultSet) cs.getObject(1)) {
+                while (rs.next()) {
+                    Object[] row = new Object[3];
+                    row[0] = rs.getString("user_name");
+                    row[1] = rs.getString("username");
+                    row[2] = rs.getDouble("total_points");
+                    model.addRow(row);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error retrieving Top 5 users: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return model;
     }
 
 }

@@ -71,4 +71,9 @@ public class IdType {
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

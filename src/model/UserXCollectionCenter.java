@@ -104,19 +104,8 @@ public class UserXCollectionCenter {
         this.kilograms = kilograms;
     }
 
-    @Override
     public String toString() {
-        return "UserXCollectionCenter{" +
-                "id=" + id +
-                ", user=" + (user != null ? user.toString() : "null") +
-                ", collectionCenter=" + (collectionCenter != null ? collectionCenter.toString() : "null") +
-                ", pointsConvertion=" + (pointsConvertion != null ? pointsConvertion.toString() : "null") +
-                ", kilograms=" + kilograms +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDateTime=" + createdDateTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedDateTime=" + updatedDateTime +
-                '}';
+        return "id=" + id;
     }
 
 }

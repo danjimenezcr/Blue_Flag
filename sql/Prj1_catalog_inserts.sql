@@ -2,19 +2,40 @@ ALTER SESSION SET CURRENT_SCHEMA = BLUE;
 
 CALL USERTYPESMANAGER.INSERTUSERTYPE('admin');
 CALL USERTYPESMANAGER.INSERTUSERTYPE('external');
+CALL USERTYPESMANAGER.INSERTUSERTYPE('superadmin');
+CALL USERTYPESMANAGER.INSERTUSERTYPE('operator');
+CALL USERTYPESMANAGER.INSERTUSERTYPE('customer');
+CALL USERTYPESMANAGER.INSERTUSERTYPE('moderator');
+CALL USERTYPESMANAGER.INSERTUSERTYPE('assistant');
+CALL USERTYPESMANAGER.INSERTUSERTYPE('coordinator');
+CALL USERTYPESMANAGER.INSERTUSERTYPE('partner');
 
 CALL LABELSMANAGER.INSERTLABEL('Home');
 CALL LABELSMANAGER.INSERTLABEL('Cellular');
+CALL LabelsManager.insertLabel('Office');
+CALL LabelsManager.insertLabel('Emergency');
+CALL LabelsManager.insertLabel('Personal');
+CALL LabelsManager.insertLabel('Business');
+CALL LabelsManager.insertLabel('Support');
+CALL LabelsManager.insertLabel('Secondary');
+CALL LabelsManager.insertLabel('Billing');
 
 CALL GENDERSMANAGER.INSERTGENDER('Cis Man');
 CALL GENDERSMANAGER.INSERTGENDER('Cis Women');
 CALL GENDERSMANAGER.INSERTGENDER('Trans Women');
 CALL GENDERSMANAGER.INSERTGENDER('Trans Men');
+CALL GENDERSMANAGER.INSERTGENDER('No binary');
+
 
 CALL IDTYPEMANAGER.INSERTIDTYPE('National ID');
 CALL IDTYPEMANAGER.INSERTIDTYPE('Passport');
 CALL IDTYPEMANAGER.INSERTIDTYPE('Permanent Residence');
 CALL IDTYPEMANAGER.INSERTIDTYPE('Temporal Residence');
+CALL IdTypeManager.insertIdType('Driver License');
+CALL IdTypeManager.insertIdType('Work Permit');
+CALL IdTypeManager.insertIdType('Student Permit');
+CALL IdTypeManager.insertIdType('Social Security Number');
+CALL IdTypeManager.insertIdType('Birth Certificate');
 
 CALL COUNTRYMANAGER.INSERTCOUNTRY('Costa Rica');
 

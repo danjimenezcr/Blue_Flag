@@ -72,14 +72,7 @@ public class CenterType {
 
     @Override
     public String toString() {
-        return "CenterType{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDateTime=" + createdDateTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedDateTime=" + updatedDateTime +
-                '}';
+        return description;
     }
 
 }

@@ -5,8 +5,15 @@
 package view;
 
 import javax.swing.*;
+
+import controller.GenderController;
+import controller.IdTypeController;
+import controller.LocationController;
+import controller.UserController;
+import model.District;
 import model.Genders;
-import service.GenderService;
+import model.IdType;
+import model.User;
 
 import java.util.Vector;
 
@@ -75,9 +82,6 @@ public class SignUpWindow extends javax.swing.JFrame {
 
         });
 
-        for (Genders g: new GenderService().getGenders()){
-            gender.addItem(g);
-        }
         secondLastNameInput = new javax.swing.JTextField();
         leftPanel = new javax.swing.JPanel();
         icon = new javax.swing.JLabel();
@@ -176,7 +180,7 @@ public class SignUpWindow extends javax.swing.JFrame {
         });
 
         idTypes.setBackground(new java.awt.Color(255, 255, 255));
-        idTypes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        idTypes.setModel(new DefaultComboBoxModel<> ( new Vector<> (new IdTypeController().getIdTypes())));
         idTypes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ID Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
         idTypes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +214,7 @@ public class SignUpWindow extends javax.swing.JFrame {
         birthDateInput.setForeground(new java.awt.Color(0, 0, 0));
 
         gender.setBackground(new java.awt.Color(255, 255, 255));
-        gender.setModel(new DefaultComboBoxModel<>(new Vector<> (new GenderService().getGenders())));
+        gender.setModel(new DefaultComboBoxModel<>(new Vector<> (new GenderController().getGenders())));
         gender.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Gender", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Helvetica Neue", 0, 13), new java.awt.Color(0, 51, 102))); // NOI18N
         gender.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -411,7 +415,24 @@ public class SignUpWindow extends javax.swing.JFrame {
 
     private void signUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpBtnActionPerformed
         // TODO add your handling code here:
-        
+        User user = new User();
+
+        try {
+            Integer.parseInt(idNumberInput.getText());
+        } catch (NumberFormatException ex) {
+            showMessage("Please enter a valid ID");
+        }
+        user.setIdNumber(idNumberInput.getText());
+        user.setFirstName(firstNameInput.getText());
+        user.setLastName(lastNameInput.getText());
+        user.setUsername(usernameInput.getText());
+        user.setPassword(new String( passwordInput.getPassword()));
+        user.setBirthDate(birthDateInput.getDate());
+        if (gender.getSelectedItem() != null) user.setGender((Genders) gender.getSelectedItem());
+        if (idTypes.getSelectedItem() != null) user.setIdType((IdType) idTypes.getSelectedItem());
+        if(districtInput.getSelectedItem() != null) user.setDistrict((District) districtInput.getSelectedItem());
+
+        new UserController().handleRegister(user, this);
     }//GEN-LAST:event_signUpBtnActionPerformed
 
     public void showError(String error){
@@ -447,12 +468,12 @@ public class SignUpWindow extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser birthDateInput;
     private javax.swing.JButton cancelBtn;
     private javax.swing.JLabel disclaimer;
-    private javax.swing.JComboBox<String> districtInput;
+    private javax.swing.JComboBox<District> districtInput;
     private javax.swing.JTextField firstNameInput;
     private javax.swing.JComboBox<Genders> gender;
     private javax.swing.JLabel icon;
     private javax.swing.JTextField idNumberInput;
-    private javax.swing.JComboBox<String> idTypes;
+    private javax.swing.JComboBox<IdType> idTypes;
     private javax.swing.JTextField lastNameInput;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JPasswordField passwordInput;

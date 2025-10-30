@@ -84,16 +84,8 @@ public class AutorizedEntity {
     }
 
     @Override
-    public String toString() {
-        return "AutorizedEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", openHour=" + openHour +
-                ", closeHour=" + closeHour +
-                ", manager='" + manager + '\'' +
-                ", contact='" + contact + '\'' +
-                ", district=" + (district != null ? district.toString() : "null") +
-                '}';
+    public String toString()  {
+        return name;
     }
 
 }

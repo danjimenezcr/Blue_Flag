@@ -102,4 +102,8 @@ public class Product {
     public void setAutorizedEntity(AutorizedEntity autorizedEntity) {
         this.autorizedEntity = autorizedEntity;
     }
+
+    @Override
+    public String toString() {
+        return   description; }
 }

@@ -114,19 +114,8 @@ public class PointsConvertion {
     }
 
     @Override
-    public String toString() {
-        return "PointsConvertion{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", pointsPerKg=" + pointsPerKg +
-                ", valueInCurrency=" + valueInCurrency +
-                ", currency=" + (currency != null ? currency.toString() : "null") +
-                ", materialType=" + (materialType != null ? materialType.toString() : "null") +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDateTime=" + createdDateTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedDateTime=" + updatedDateTime +
-                '}';
+    public String toString()  {
+        return name;
     }
 
 }

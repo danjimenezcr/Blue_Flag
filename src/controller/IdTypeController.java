@@ -1,16 +1,16 @@
 package controller;
 
+import dao.IdTypeDAO;
 import model.IdType;
-import service.IdTypeService;
 
 import java.util.List;
 
 public class IdTypeController {
-    private final IdTypeService idTypeService = new IdTypeService();
+    private final IdTypeDAO idTypeDAO = new IdTypeDAO();
 
     public List<IdType> getIdTypes() {
         try{
-            return idTypeService.getIdTypes();
+            return idTypeDAO.getIdTypes(null);
         } catch (Exception e){
             System.out.println("Error fetching Id Types: " + e.getMessage());
         }

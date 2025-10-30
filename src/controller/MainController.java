@@ -14,20 +14,5 @@ import view.MainWindow;
  */
 public class MainController {
     
-    private MainWindow main;
-    
-    public MainController(){
-        
-    }
-    
-    public MainController(MainWindow main){
-        this.main = main;
-    }
-    
-    public void handleLogout(User user){
-        this.main.dispose();
-        new LoginWindow().setVisible(true);
-    }
-    
     
 }

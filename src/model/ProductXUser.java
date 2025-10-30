@@ -91,4 +91,5 @@ public class ProductXUser {
     public void setProductId(Product product) {
         this.product = product;
     }
+
 }

@@ -31,6 +31,8 @@ CREATE OR REPLACE PACKAGE UserManager AS
     function getUserByAge return sys_refcursor;
 END UserManager;
 
+
+
 create or replace package body UserManager as
     PROCEDURE insertUser(pFirstName varchar2, pBirthDate date, pUsername varchar2,
                          pSecondName varchar2,
@@ -47,7 +49,7 @@ create or replace package body UserManager as
             commit;
             exception
                 when OTHERS THEN
-                    RAISE_APPLICATION_ERROR(-20001, 'Unexpected error ocurred.');
+                    RAISE_APPLICATION_ERROR(-20001, SQLERRM);
         end;
     PROCEDURE deleteUser(pUserId number)
         is
@@ -767,7 +769,7 @@ create or replace package body idTypeManager as
                     UPDATEDBY,
                     UPDATEDDATE
                 from
-                    USERTYPES ut
+                    IDTYPE ut
                 where
                     id = nvl(pId, id);
             return (vIdTypes);

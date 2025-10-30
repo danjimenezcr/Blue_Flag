@@ -74,15 +74,8 @@ public class BusinessType {
     }
 
     @Override
-    public String toString() {
-        return "BusinessType{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDateTime=" + createdDateTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedDateTime=" + updatedDateTime +
-                '}';
+    public String toString()  {
+        return description;
     }
 
 }

@@ -81,16 +81,8 @@ public class Currency {
     }
 
     @Override
-    public String toString() {
-        return "Currency{" +
-                "id=" + id +
-                ", code='" + code + '\'' +
-                ", symbol='" + symbol + '\'' +
-                ", createdBy='" + createdBy + '\'' +
-                ", createdDateTime=" + createdDateTime +
-                ", updatedBy='" + updatedBy + '\'' +
-                ", updatedDateTime=" + updatedDateTime +
-                '}';
+    public String toString()  {
+        return code;
     }
 
 }
